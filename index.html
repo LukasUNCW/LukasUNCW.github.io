@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lukas Nilsson — Risk Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0f0d;
+    --paper: #f5f3ee;
+    --paper2: #ede9e1;
+    --accent: #1a3a5c;
+    --accent2: #c8392b;
+    --muted: #7a7670;
+    --border: rgba(15,15,13,0.12);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: rgba(245,243,238,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 5rem; }
+  .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 5rem 3rem; border-right: 1px solid var(--border); }
+  .hero-eyebrow { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s ease 0.1s forwards; }
+  .hero-name { font-family: var(--serif); font-size: clamp(3rem, 5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.7s ease 0.25s forwards; }
+  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-role { font-family: var(--serif); font-size: clamp(1.4rem, 2.5vw, 2rem); font-style: italic; color: var(--muted); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s ease 0.35s forwards; }
+  .hero-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.75; max-width: 400px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.7s ease 0.45s forwards; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s ease 0.55s forwards; }
+  .btn-primary { display: inline-block; padding: 0.75rem 1.75rem; background: var(--accent); color: #fff; font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background: #0d2a45; transform: translateY(-1px); }
+  .btn-secondary { display: inline-block; padding: 0.75rem 1.75rem; border: 1px solid var(--ink); color: var(--ink); font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-1px); }
+  .hero-right { display: flex; flex-direction: column; justify-content: center; padding: 5rem 3rem; background: var(--paper2); opacity: 0; animation: fadeIn 1s ease 0.6s forwards; }
+  .hero-stat-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; }
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .stat-item { padding: 1.75rem; border: 1px solid var(--border); border-bottom: none; border-right: none; }
+  .stat-item:nth-child(even) { border-right: 1px solid var(--border); }
+  .stat-item:nth-child(n+3) { border-bottom: 1px solid var(--border); }
+  .stat-num { font-family: var(--serif); font-size: 2.5rem; line-height: 1; color: var(--accent); margin-bottom: 0.4rem; }
+  .stat-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  .skills-list { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; padding: 0.3rem 0.75rem; border: 1px solid var(--border); color: var(--muted); background: var(--paper); }
+  section { position: relative; }
+  .section-header { display: flex; align-items: baseline; gap: 1.5rem; padding: 3rem 3rem 2rem; border-bottom: 1px solid var(--border); }
+  .section-num { font-family: var(--mono); font-size: 0.65rem; color: var(--accent2); letter-spacing: 0.1em; }
+  .section-title { font-family: var(--serif); font-size: 2rem; letter-spacing: -0.02em; }
+  .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-left: 1px solid var(--border); }
+  .project-card { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2rem 2rem 1.75rem; display: flex; flex-direction: column; transition: background 0.2s; text-decoration: none; color: inherit; }
+  .project-card:hover { background: var(--paper2); }
+  .project-card:hover .card-arrow { transform: translate(3px, -3px); }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.25rem; }
+  .card-index { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--accent2); }
+  .card-arrow { font-size: 1.1rem; color: var(--muted); transition: transform 0.2s ease; }
+  .card-title { font-family: var(--serif); font-size: 1.25rem; line-height: 1.25; margin-bottom: 0.75rem; letter-spacing: -0.01em; }
+  .card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; flex: 1; margin-bottom: 1.5rem; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+  .card-tag { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.05em; padding: 0.2rem 0.6rem; background: var(--paper2); border: 1px solid var(--border); color: var(--muted); }
+  .card-links { display: flex; gap: 1rem; padding-top: 1.25rem; border-top: 1px solid var(--border); margin-top: auto; }
+  .card-link { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); text-decoration: none; transition: color 0.15s; }
+  .card-link:hover { color: var(--accent2); }
+  .card-link-gh { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+  .card-link-gh:hover { color: var(--ink); }
+  .about-strip { display: grid; grid-template-columns: 1fr 2fr; border-top: 1px solid var(--border); }
+  .about-left { padding: 3rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
+  .about-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .about-name-big { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1.1; letter-spacing: -0.02em; }
+  .about-name-big em { font-style: italic; color: var(--accent); }
+  .about-right { padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .about-block-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.75rem; }
+  .about-block-text { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+  .cert-list { list-style: none; font-size: 0.85rem; color: var(--muted); line-height: 2; }
+  .cert-list li::before { content: '—'; margin-right: 0.5rem; color: var(--accent2); font-family: var(--mono); }
+  footer { border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; }
+  .footer-left { padding: 3rem; border-right: 1px solid var(--border); }
+  .footer-title { font-family: var(--serif); font-size: 1.75rem; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  .footer-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+  .contact-link { display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: var(--ink); text-decoration: none; transition: color 0.15s; }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; min-width: 60px; }
+  .footer-right { padding: 3rem; display: flex; flex-direction: column; justify-content: space-between; }
+  .footer-tagline { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--muted); line-height: 1.5; max-width: 320px; }
+  .footer-bottom { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--muted); }
+  .ticker-strip { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0.6rem 0; background: var(--accent); }
+  .ticker-inner { display: flex; animation: ticker 22s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 0 2rem; }
+  .ticker-item span { color: rgba(255,255,255,0.35); margin: 0 0.5rem; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 4rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--border); }
+    .hero-right { padding: 2rem 1.5rem 3rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .section-header { padding: 2rem 1.5rem 1.5rem; }
+    .project-card { border-left: none; }
+    .about-strip { grid-template-columns: 1fr; }
+    .about-left { border-right: none; border-bottom: 1px solid var(--border); }
+    .about-right { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr; }
+    .footer-left { border-right: none; border-bottom: 1px solid var(--border); }
+    .project-card.span2 { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Lukas Nilsson</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">// Risk Analytics Portfolio</p>
+    <h1 class="hero-name">Lukas<br><em>Nilsson</em></h1>
+    <p class="hero-role">Aspiring Risk Analyst</p>
+    <p class="hero-desc">Building quantitative tools in market risk, credit risk, and portfolio stress testing — using Python, live market data, and industry-standard methodologies.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View projects</a>
+      <a href="mailto:lukas@lukas-nilsson.com" class="btn-secondary">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <p class="hero-stat-label">// Portfolio at a glance</p>
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-num">5</div><div class="stat-desc">Live risk analytics projects</div></div>
+      <div class="stat-item"><div class="stat-num">3</div><div class="stat-desc">VaR methodologies implemented</div></div>
+      <div class="stat-item"><div class="stat-num">5+</div><div class="stat-desc">Crisis scenarios stress tested</div></div>
+      <div class="stat-item"><div class="stat-num">0.81</div><div class="stat-desc">AUC-ROC on credit model</div></div>
+    </div>
+    <div class="skills-list">
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">pandas</span>
+      <span class="skill-tag">NumPy</span>
+      <span class="skill-tag">scikit-learn</span>
+      <span class="skill-tag">Streamlit</span>
+      <span class="skill-tag">VaR</span>
+      <span class="skill-tag">Monte Carlo</span>
+      <span class="skill-tag">Credit Risk</span>
+      <span class="skill-tag">Basel III</span>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    <span class="ticker-item">Value at Risk<span>·</span></span>
+    <span class="ticker-item">Monte Carlo Simulation<span>·</span></span>
+    <span class="ticker-item">Credit Scoring<span>·</span></span>
+    <span class="ticker-item">Stress Testing<span>·</span></span>
+    <span class="ticker-item">Correlation Analysis<span>·</span></span>
+    <span class="ticker-item">Expected Loss<span>·</span></span>
+    <span class="ticker-item">Basel III<span>·</span></span>
+    <span class="ticker-item">Risk Dashboard<span>·</span></span>
+    <span class="ticker-item">Value at Risk<span>·</span></span>
+    <span class="ticker-item">Monte Carlo Simulation<span>·</span></span>
+    <span class="ticker-item">Credit Scoring<span>·</span></span>
+    <span class="ticker-item">Stress Testing<span>·</span></span>
+    <span class="ticker-item">Correlation Analysis<span>·</span></span>
+    <span class="ticker-item">Expected Loss<span>·</span></span>
+    <span class="ticker-item">Basel III<span>·</span></span>
+    <span class="ticker-item">Risk Dashboard<span>·</span></span>
+  </div>
+</div>
+
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Projects</h2>
+  </div>
+  <div class="projects-grid">
+
+    <a class="project-card reveal" href="https://lukas-nilsson-var.streamlit.app" target="_blank">
+      <div class="card-top"><span class="card-index">01</span><span class="card-arrow">↗</span></div>
+      <h3 class="card-title">Portfolio VaR Calculator</h3>
+      <p class="card-desc">Computes Value at Risk using Historical, Parametric, and Monte Carlo methods on a live equity portfolio. Visualises the return distribution with all three VaR cutoff lines marked.</p>
+      <div class="card-tags"><span class="card-tag">VaR</span><span class="card-tag">Monte Carlo</span><span class="card-tag">yfinance</span><span class="card-tag">SciPy</span></div>
+      <div class="card-links">
+        <a class="card-link" href="https://lukas-nilsson-var.streamlit.app" target="_blank" onclick="event.stopPropagation()">Live demo</a>
+        <a class="card-link-gh" href="https://github.com/lukas-nilsson/portfolio-var-calculator" target="_blank" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <a class="project-card reveal" href="https://lukas-nilsson-credit.streamlit.app" target="_blank" style="transition-delay:0.08s">
+      <div class="card-top"><span class="card-index">02</span><span class="card-arrow">↗</span></div>
+      <h3 class="card-title">Credit Risk Scoring Model</h3>
+      <p class="card-desc">Logistic regression trained on the German Credit Dataset. Outputs probability of default per applicant and computes Expected Loss using EL = PD × LGD × EAD.</p>
+      <div class="card-tags"><span class="card-tag">scikit-learn</span><span class="card-tag">AUC-ROC</span><span class="card-tag">Expected Loss</span><span class="card-tag">Credit Risk</span></div>
+      <div class="card-links">
+        <a class="card-link" href="https://lukas-nilsson-credit.streamlit.app" target="_blank" onclick="event.stopPropagation()">Live demo</a>
+        <a class="card-link-gh" href="https://github.com/lukas-nilsson/credit-risk-scoring" target="_blank" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <a class="project-card reveal" href="https://lukas-nilsson-stress.streamlit.app" target="_blank" style="transition-delay:0.16s">
+      <div class="card-top"><span class="card-index">03</span><span class="card-arrow">↗</span></div>
+      <h3 class="card-title">Portfolio Stress Testing</h3>
+      <p class="card-desc">Applies five historical crisis scenarios (2008, COVID, 2022 rate hikes, dot-com bust) plus a custom hypothetical shock to a live portfolio, computing P&amp;L impact per scenario.</p>
+      <div class="card-tags"><span class="card-tag">Scenario Analysis</span><span class="card-tag">Historical Shocks</span><span class="card-tag">P&amp;L Impact</span><span class="card-tag">pandas</span></div>
+      <div class="card-links">
+        <a class="card-link" href="https://lukas-nilsson-stress.streamlit.app" target="_blank" onclick="event.stopPropagation()">Live demo</a>
+        <a class="card-link-gh" href="https://github.com/lukas-nilsson/portfolio-stress-testing" target="_blank" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <a class="project-card reveal" href="https://lukas-nilsson-correlation.streamlit.app" target="_blank" style="transition-delay:0.04s">
+      <div class="card-top"><span class="card-index">04</span><span class="card-arrow">↗</span></div>
+      <h3 class="card-title">Correlation &amp; Contagion Analysis</h3>
+      <p class="card-desc">Rolling 60-day correlation charts across equities, bonds, gold, oil, and crypto — revealing how diversification collapses in stress periods, exposing the core flaw in static VaR models.</p>
+      <div class="card-tags"><span class="card-tag">Correlation</span><span class="card-tag">seaborn</span><span class="card-tag">Multi-asset</span><span class="card-tag">Contagion</span></div>
+      <div class="card-links">
+        <a class="card-link" href="https://lukas-nilsson-correlation.streamlit.app" target="_blank" onclick="event.stopPropagation()">Live demo</a>
+        <a class="card-link-gh" href="https://github.com/lukas-nilsson/correlation-contagion" target="_blank" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <a class="project-card span2 reveal" href="https://lukas-nilsson-dashboard.streamlit.app" target="_blank" style="transition-delay:0.12s; grid-column: span 2;">
+      <div class="card-top"><span class="card-index">05 — Capstone</span><span class="card-arrow">↗</span></div>
+      <h3 class="card-title">Live Risk Dashboard</h3>
+      <p class="card-desc">A unified portfolio risk dashboard combining all four projects into one live tool. Enter any tickers and weights to see real-time VaR, rolling volatility, stress test results, and a cross-asset correlation heatmap — all computed from live Yahoo Finance data.</p>
+      <div class="card-tags"><span class="card-tag">Streamlit</span><span class="card-tag">Plotly</span><span class="card-tag">VaR</span><span class="card-tag">Stress Testing</span><span class="card-tag">Correlation</span><span class="card-tag">yfinance</span><span class="card-tag">Full-stack</span></div>
+      <div class="card-links">
+        <a class="card-link" href="https://lukas-nilsson-dashboard.streamlit.app" target="_blank" onclick="event.stopPropagation()">Live demo</a>
+        <a class="card-link-gh" href="https://github.com/lukas-nilsson/risk-dashboard" target="_blank" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">About</h2>
+  </div>
+  <div class="about-strip">
+    <div class="about-left reveal">
+      <div>
+        <p class="about-label">// Who I am</p>
+        <h3 class="about-name-big">Lukas<br><em>Nilsson</em></h3>
+      </div>
+      <a href="mailto:lukas@lukas-nilsson.com" class="btn-primary" style="margin-top:2rem;align-self:flex-start">Get in touch</a>
+    </div>
+    <div class="about-right reveal" style="transition-delay:0.1s">
+      <div>
+        <p class="about-block-title">Background</p>
+        <p class="about-block-text">Focused on building practical risk analytics skills to enter the finance sector as a Risk Analyst. Self-directed learner working through market risk, credit risk, and quantitative methods — building every concept into a working tool rather than just studying theory.</p>
+      </div>
+      <div>
+        <p class="about-block-title">Certifications in progress</p>
+        <ul class="cert-list">
+          <li>FRM Part I (GARP)</li>
+          <li>CFA Level I</li>
+          <li>Python for Finance</li>
+        </ul>
+      </div>
+      <div>
+        <p class="about-block-title">Technical skills</p>
+        <p class="about-block-text">Python · pandas · NumPy · SciPy · scikit-learn · Plotly · Streamlit · SQL · Git · yfinance</p>
+      </div>
+      <div>
+        <p class="about-block-title">Risk domains</p>
+        <p class="about-block-text">Market risk · Credit risk · Operational risk · Stress testing · VaR · CVaR · Expected Loss · Basel III frameworks</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="footer-left reveal">
+    <h3 class="footer-title">Let's talk</h3>
+    <p class="footer-sub">Open to risk analyst roles, internships, and conversations about quantitative finance.</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:lukas@lukas-nilsson.com">
+        <span class="contact-link-label">Email</span>lukas@lukas-nilsson.com
+      </a>
+      <a class="contact-link" href="https://linkedin.com/in/lukas-nilsson" target="_blank">
+        <span class="contact-link-label">LinkedIn</span>linkedin.com/in/lukas-nilsson
+      </a>
+      <a class="contact-link" href="https://github.com/lukas-nilsson" target="_blank">
+        <span class="contact-link-label">GitHub</span>github.com/lukas-nilsson
+      </a>
+    </div>
+  </div>
+  <div class="footer-right reveal" style="transition-delay:0.1s">
+    <p class="footer-tagline">"Risk comes from not knowing what you're doing." — Warren Buffett</p>
+    <p class="footer-bottom">© 2026 Lukas Nilsson &nbsp;·&nbsp; lukas-nilsson.com</p>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
