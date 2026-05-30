@@ -141,7 +141,7 @@
   <div class="hero-right">
     <p class="hero-stat-label">// Portfolio at a glance</p>
     <div class="stats-grid">
-      <div class="stat-item"><div class="stat-num">5</div><div class="stat-desc">Live risk analytics projects</div></div>
+      <div class="stat-item"><div class="stat-num">9</div><div class="stat-desc">Live risk analytics projects</div></div>
       <div class="stat-item"><div class="stat-num">3</div><div class="stat-desc">VaR methodologies implemented</div></div>
       <div class="stat-item"><div class="stat-num">5+</div><div class="stat-desc">Crisis scenarios stress tested</div></div>
       <div class="stat-item"><div class="stat-num">0.81</div><div class="stat-desc">AUC-ROC on credit model</div></div>
@@ -154,6 +154,9 @@
       <span class="skill-tag">VaR</span>
       <span class="skill-tag">Monte Carlo</span>
       <span class="skill-tag">Credit Risk</span>
+      <span class="skill-tag">R</span>
+      <span class="skill-tag">Databricks</span>
+      <span class="skill-tag">PySpark</span>
     </div>
   </div>
 </section>
@@ -229,13 +232,53 @@
     </a>
 
     <a class="project-card span2 reveal" href="https://lukas-nilsson-dashboard.streamlit.app" target="_blank" style="transition-delay:0.12s; grid-column: span 2;">
-      <div class="card-top"><span class="card-index">05 — Capstone</span><span class="card-arrow">↗</span></div>
+      <div class="card-top"><span class="card-index">10 — Capstone</span><span class="card-arrow">↗</span></div>
       <h3 class="card-title">Live Risk Dashboard</h3>
       <p class="card-desc">A unified portfolio risk dashboard combining all four projects into one live tool. Enter any tickers and weights to see real-time VaR, rolling volatility, stress test results, and a cross-asset correlation heatmap — all computed from live Yahoo Finance data.</p>
       <div class="card-tags"><span class="card-tag">Streamlit</span><span class="card-tag">Plotly</span><span class="card-tag">VaR</span><span class="card-tag">Stress Testing</span><span class="card-tag">Correlation</span><span class="card-tag">yfinance</span><span class="card-tag">Full-stack</span></div>
       <div class="card-links">
         <a class="card-link" href="https://lukas-nilsson-dashboard.streamlit.app" target="_blank" onclick="event.stopPropagation()">Live demo</a>
         <a class="card-link-gh" href="https://github.com/lukas-nilsson/risk-dashboard" target="_blank" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <a class="project-card reveal" href="https://github.com/LukasUNCW/VaR-Risk-Modeling-Backtesting-Engine" target="_blank" style="transition-delay:0.1s">
+      <div class="card-top"><span class="card-index">06</span><span class="card-arrow">&#8599;</span></div>
+      <h3 class="card-title">VaR Backtesting Engine</h3>
+      <p class="card-desc">Python engine implementing Historical, Parametric, and Monte Carlo VaR with rolling backtesting, Kupiec POF statistical validation, and visual diagnostics for portfolio tail risk.</p>
+      <div class="card-tags"><span class="card-tag">VaR</span><span class="card-tag">Backtesting</span><span class="card-tag">Kupiec POF</span><span class="card-tag">Monte Carlo</span><span class="card-tag">SciPy</span></div>
+      <div class="card-links">
+        <a class="card-link-gh" href="https://github.com/LukasUNCW/VaR-Risk-Modeling-Backtesting-Engine" target="_blank" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <a class="project-card reveal" href="https://github.com/LukasUNCW/Australian-Open-2024-Monte-Carlo-Simulation" target="_blank" style="transition-delay:0.05s">
+      <div class="card-top"><span class="card-index">07</span><span class="card-arrow">&#8599;</span></div>
+      <h3 class="card-title">Australian Open 2024 Monte Carlo</h3>
+      <p class="card-desc">Surface-weighted Elo model trained on 3 years of ATP data. Simulates the 2024 AO bracket 100,000 times to estimate title probabilities &mdash; Jannik Sinner ranked 2nd at 16.1%.</p>
+      <div class="card-tags"><span class="card-tag">Monte Carlo</span><span class="card-tag">Elo Rating</span><span class="card-tag">Sports Analytics</span><span class="card-tag">NumPy</span></div>
+      <div class="card-links">
+        <a class="card-link-gh" href="https://github.com/LukasUNCW/Australian-Open-2024-Monte-Carlo-Simulation" target="_blank" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <a class="project-card reveal" href="https://github.com/LukasUNCW/Solar-Activity-and-Geomagnetic-Forecasting" target="_blank" style="transition-delay:0.1s">
+      <div class="card-top"><span class="card-index">08</span><span class="card-arrow">&#8599;</span></div>
+      <h3 class="card-title">Solar &amp; Geomagnetic Forecasting</h3>
+      <p class="card-desc">R-based time series analysis forecasting sunspot activity, solar flux, and geomagnetic disturbances using ARIMA/SARIMA, Vector ARIMA, and dynamic regression on NOAA space weather data.</p>
+      <div class="card-tags"><span class="card-tag">R</span><span class="card-tag">ARIMA</span><span class="card-tag">SARIMA</span><span class="card-tag">Time Series</span><span class="card-tag">NOAA</span></div>
+      <div class="card-links">
+        <a class="card-link-gh" href="https://github.com/LukasUNCW/Solar-Activity-and-Geomagnetic-Forecasting" target="_blank" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <a class="project-card reveal" href="https://github.com/LukasUNCW/Wilmington-Rental-Pipeline" target="_blank" style="transition-delay:0.05s">
+      <div class="card-top"><span class="card-index">09</span><span class="card-arrow">&#8599;</span></div>
+      <h3 class="card-title">Wilmington Rental Pipeline</h3>
+      <p class="card-desc">Databricks medallion ETL pipeline ingesting live rental listings via RentCast API, transforming through Bronze/Silver/Gold layers, and using the Claude AI API to score each listing against preferences.</p>
+      <div class="card-tags"><span class="card-tag">Databricks</span><span class="card-tag">PySpark</span><span class="card-tag">Delta Lake</span><span class="card-tag">Claude API</span><span class="card-tag">ETL</span></div>
+      <div class="card-links">
+        <a class="card-link-gh" href="https://github.com/LukasUNCW/Wilmington-Rental-Pipeline" target="_blank" onclick="event.stopPropagation()">GitHub</a>
       </div>
     </a>
 
