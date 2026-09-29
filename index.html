@@ -473,7 +473,7 @@ function setMode(m) { if (m === hero.mode) return; hero.mode = m; hero.since = p
 /* =========================================================
    Scene
    ========================================================= */
-let renderer, scene, camera, composer, bloom, MATS;
+let renderer, scene, camera, composer, bloom, MATS, CLUTTER;
 const SEATS = [];
 const clock = new THREE.Clock();
 const smallScreens = [];
@@ -549,7 +549,7 @@ function drawTV(tv, now) {
 
 // Hero seat: row at z = -7, bench on the right of the centre aisle, second seat, facing the windows
 const HERO = { x: 4.4, z: -7 };
-const ROOM = { x0: -26, x1: 26, z0: -36, z1: 24, h: 4.2 };
+const ROOM = { x0: -14, x1: 14, z0: -25, z1: 12, h: 4.2 };
 
 function build() {
   scene = new THREE.Scene();
@@ -602,7 +602,7 @@ function build() {
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), one = new THREE.Vector3(1, 1, 1);
   // recessed light panels
   const panelsArr = [];
-  for (let x = -22; x <= 22; x += 4) for (let z = -33; z <= 21; z += 3.5) panelsArr.push([x, z]);
+  for (let x = -12; x <= 12; x += 4) for (let z = -23; z <= 11; z += 3.5) panelsArr.push([x, z]);
   const panels = new THREE.InstancedMesh(new THREE.PlaneGeometry(1.2, .6), new THREE.MeshBasicMaterial({ color: '#d9d2c4' }), panelsArr.length);
   q.setFromEuler(new THREE.Euler(Math.PI / 2, 0, 0));
   panelsArr.forEach(([x, z], i) => panels.setMatrixAt(i, m4.compose(v3.set(x, ROOM.h - .01, z), q, one))); scene.add(panels);
@@ -628,7 +628,7 @@ function build() {
 
   // columns
   const colMat = new THREE.MeshStandardMaterial({ color: '#d6d3cd', roughness: .8 });
-  const colArr = []; for (const x of [-12, 12]) for (const z of [-24.5, -10.5, 3.5, 17.5]) colArr.push([x, z]);
+  const colArr = []; for (const x of [-13.2, 13.2]) for (const z of [-17.5, -3.5, 9]) colArr.push([x, z]);
   const cols = new THREE.InstancedMesh(new THREE.BoxGeometry(.8, ROOM.h, .8), colMat, colArr.length);
   colArr.forEach(([x, z], i) => cols.setMatrixAt(i, m4.makeTranslation(x, ROOM.h / 2, z))); cols.castShadow = cols.receiveShadow = true; scene.add(cols);
 
@@ -636,14 +636,14 @@ function build() {
   ticker = tickerTexture(); ticker.wrapS = THREE.RepeatWrapping; ticker.repeat.x = 1.4;
   const cc = document.createElement('canvas'); cc.width = 1280; cc.height = 96; clockCtx = cc.getContext('2d');
   clockTex = new THREE.CanvasTexture(cc); clockTex.colorSpace = THREE.SRGBColorSpace; drawClocks();
-  const hangZ = -17.5, dark = new THREE.MeshStandardMaterial({ color: '#0b0d11', roughness: .5 });
-  [[-12.9, 15.2], [12.9, 15.2]].forEach(([x, w]) => {
+  const hangZ = -16.6, dark = new THREE.MeshStandardMaterial({ color: '#0b0d11', roughness: .5 });
+  [[-9.25, 7.9], [9.25, 7.9]].forEach(([x, w]) => {
     const box = new THREE.Mesh(new THREE.BoxGeometry(w + .1, .42, .12), dark); box.position.set(x, 3.55, hangZ); scene.add(box);
     [1, -1].forEach(s => { const p = new THREE.Mesh(new THREE.PlaneGeometry(w, .32), new THREE.MeshBasicMaterial({ map: ticker, toneMapped: false })); p.position.set(x, 3.55, hangZ + s * .065); if (s < 0) p.rotation.y = Math.PI; scene.add(p); });
   });
   const cbox = new THREE.Mesh(new THREE.BoxGeometry(10.2, .9, .12), dark); cbox.position.set(0, 3.45, hangZ); scene.add(cbox);
   [1, -1].forEach(s => { const p = new THREE.Mesh(new THREE.PlaneGeometry(10, .75), new THREE.MeshBasicMaterial({ map: clockTex, toneMapped: false })); p.position.set(0, 3.45, hangZ + s * .065); if (s < 0) p.rotation.y = Math.PI; scene.add(p); });
-  for (const x of [-20, -5, 5, 20]) { const rod = new THREE.Mesh(new THREE.CylinderGeometry(.015, .015, .5), dark); rod.position.set(x, 3.95, hangZ); scene.add(rod); }
+  for (const x of [-12, -5, 5, 12]) { const rod = new THREE.Mesh(new THREE.CylinderGeometry(.015, .015, .5), dark); rod.position.set(x, 3.95, hangZ); scene.add(rod); }
 
   // TVs on the left wall
   [['MARKETS', 'FED HOLDS RATES; TREASURIES RALLY'], ['GLOBAL', 'EUROPE CLOSES HIGHER, BANKS LEAD'], ['ENERGY', 'CRUDE SLIPS ON INVENTORY BUILD'], ['RATES', '10Y YIELD DIPS AHEAD OF CPI']].forEach(([title, head], i) => {
@@ -651,7 +651,7 @@ function build() {
     const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
     const s = [0]; for (let k = 1; k < 80; k++) s.push(s[k - 1] + gauss());
     const tv = { ctx: c.getContext('2d'), tex, title, head, s }; tvs.push(tv); drawTV(tv);
-    const z = -26 + i * 9, g = new THREE.Group(); g.position.set(ROOM.x0 + .05, 2.55, z); g.rotation.y = Math.PI / 2; scene.add(g);
+    const z = -20 + i * 8, g = new THREE.Group(); g.position.set(ROOM.x0 + .05, 2.55, z); g.rotation.y = Math.PI / 2; scene.add(g);
     const b = new THREE.Mesh(new THREE.BoxGeometry(2.5, 1.45, .08), dark); b.position.z = .04; g.add(b);
     const sc = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.35), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false })); sc.position.z = .085; g.add(sc);
   });
@@ -695,8 +695,8 @@ function build() {
 
   // ---------- trading benches ----------
   smallScreens.push(...makeSmallScreens(14));
-  const rows = small ? [-21, -14, -7, 0, 7] : [-28, -21, -14, -7, 0, 7, 14];
-  const benches = [[-21.2, -2], [2, 21.2]], PITCH = 1.6;
+  const rows = small ? [-14, -7, 0, 7] : [-21, -14, -7, 0, 7];
+  const benches = [[-12, -2], [2, 12]], PITCH = 1.6;
   const deskMat = new THREE.MeshStandardMaterial({ color: '#c8c3b9', roughness: .6, envMapIntensity: .15 });
   const spineMat = new THREE.MeshStandardMaterial({ color: '#2c3036', roughness: .45, metalness: .5 });
   const bezelMat = new THREE.MeshPhysicalMaterial({ color: '#0a0b0d', roughness: .28, metalness: .2, clearcoat: .7, clearcoatRoughness: .2 });
@@ -706,7 +706,7 @@ function build() {
   MATS = { deskMat, spineMat, bezelMat, blackMat, fabricMat, metalMat };
 
   const tops = [], spines = [], legs = [], poles = [], frames = [], screensByTex = smallScreens.map(() => []), kbs = [], mice = [], turrets = [], chairs = [];
-  SEATS.length = 0;
+  SEATS.length = 0; const deskSpots = [];
   // monitor layout per seat, seat faces -z; monitors sit on the spine in front
   const MON = [[-.63, 1.07, .22], [0, 1.07, 0], [.63, 1.07, -.22], [-.32, 1.49, .1], [.32, 1.49, -.1]];
   for (const zc of rows) for (const [bx0, bx1] of benches) {
@@ -735,6 +735,7 @@ function build() {
         const occupied = rnd() < .66, jitter = rr(-.08, .08), sz = zc + side * 1.15;
         chairs.push(new THREE.Matrix4().compose(v3.set(sx + jitter, 0, sz + (occupied ? 0 : side * rr(.1, .4))), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, rotY + (occupied ? rr(-.06, .06) : rr(-.6, .6)), 0)), one));
         if (occupied) SEATS.push({ x: sx + jitter, z: sz, ry: rotY + rr(-.05, .05) });
+        deskSpots.push({ sx, zc, side, occ: occupied });
       }
     }
   }
@@ -771,6 +772,63 @@ function build() {
   const chairMats = [fabricMat, blackMat, metalMat];
   inst(chairGeo, chairMats, chairs);
 
+  // ---------- clutter: what piles up on a real trading desk ----------
+  const paperMat = new THREE.MeshStandardMaterial({ color: '#f4f2ec', roughness: .9 });
+  const cupMats = [paperMat, new THREE.MeshStandardMaterial({ color: '#9b6a3f', roughness: .95 }), new THREE.MeshStandardMaterial({ color: '#e9e6df', roughness: .5 })];
+  const cupGeo = mergeGeometries([
+    new THREE.CylinderGeometry(.042, .032, .13, 16).translate(0, .065, 0),
+    new THREE.CylinderGeometry(.0428, .0365, .05, 16).translate(0, .062, 0),
+    mergeGeometries([new THREE.CylinderGeometry(.045, .045, .012, 16).translate(0, .136, 0), new THREE.CylinderGeometry(.03, .04, .01, 16).translate(0, .146, 0)]),
+  ], true);
+  const canGeo = new THREE.CylinderGeometry(.033, .033, .123, 14).translate(0, .0615, 0);
+  const canMat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: .3, metalness: .55 });
+  const bottleGeo = mergeGeometries([new THREE.CylinderGeometry(.034, .034, .17, 14).translate(0, .085, 0), new THREE.CylinderGeometry(.016, .034, .045, 14).translate(0, .192, 0), new THREE.CylinderGeometry(.017, .017, .02, 10).translate(0, .224, 0)]);
+  const bottleMat = new THREE.MeshStandardMaterial({ color: '#d8ecf6', roughness: .08, transparent: true, opacity: .55, depthWrite: false });
+  const chineseGeo = new THREE.CylinderGeometry(.075, .052, .1, 4, 1).rotateY(Math.PI / 4).translate(0, .05, 0);
+  const shellGeo = new RoundedBoxGeometry(.22, .07, .21, 2, .02).translate(0, .035, 0);
+  const foamMat = new THREE.MeshStandardMaterial({ color: '#f1efe7', roughness: .8 });
+  const bagGeo = new THREE.BoxGeometry(.17, .25, .11).translate(0, .125, 0);
+  const kraftMat = new THREE.MeshStandardMaterial({ color: '#a8835a', roughness: .95 });
+  const sheetGeo = new THREE.BoxGeometry(.21, .003, .297);
+  const bookGeo = new RoundedBoxGeometry(.18, .018, .25, 1, .004);
+  const packGeo = new RoundedBoxGeometry(.3, .42, .17, 3, .06);
+  const binGeo = mergeGeometries([new THREE.CylinderGeometry(.15, .125, .36, 18).translate(0, .18, 0), new THREE.TorusGeometry(.148, .008, 6, 24).rotateX(Math.PI / 2).translate(0, .36, 0)]);
+  const binMat = new THREE.MeshStandardMaterial({ color: '#34373d', roughness: .6, metalness: .3 });
+  const ballGeo = new THREE.IcosahedronGeometry(.036, 0);
+  CLUTTER = { cupGeo, cupMats, canGeo, canMat, chineseGeo, paperMat, sheetGeo, bottleGeo, bottleMat, shellGeo, foamMat };
+
+  const CANC = ['#c8102e', '#1f4fbf', '#b9bec6', '#1e9b4a', '#f2c230', '#141414', '#e86a1c'].map(c => new THREE.Color(c));
+  const BOOKC = ['#1c2b4a', '#6b1d1d', '#1f3b2d', '#2a2a2a', '#c9a227', '#e7e3d8'].map(c => new THREE.Color(c));
+  const PACKC = ['#1b1d22', '#2c3b55', '#4a4f57', '#3e2f25', '#1f3a2e', '#5a1f24'].map(c => new THREE.Color(c));
+  const pick = a => a[Math.floor(rnd() * a.length)];
+  const TOP = .762;
+  const Mx = (x, y, z, ry = 0, rx = 0, sc = 1) => new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx, ry, 0)), new THREE.Vector3(sc, sc, sc));
+  const C = { cups: [], cans: [], canC: [], bottles: [], chinese: [], shells: [], bags: [], sheets: [], books: [], bookC: [], packs: [], packC: [], bins: [], balls: [] };
+  for (const sp of deskSpots) {
+    const P = (dx, dz) => [sp.sx + dx * sp.side, sp.zc + dz * sp.side];
+    const slots = [[-.56, .7], [-.76, .44], [.78, .82], [.2, .4], [-.3, .86], [.66, .3]].sort(() => rnd() - .5);
+    const busy = sp.occ ? 1 : .5;
+    const put = (list, prob, after) => {
+      if (rnd() > prob * busy || !slots.length) return;
+      const [dx, dz] = slots.pop(), [x, z] = P(dx + rr(-.04, .04), dz + rr(-.03, .03));
+      list.push(Mx(x, TOP, z, rr(0, 6.28))); after && after();
+    };
+    put(C.cups, .62); put(C.cups, .2); put(C.cans, .3, () => C.canC.push(pick(CANC)));
+    put(C.bottles, .22); put(C.chinese, .15); put(C.shells, .12); put(C.bags, .07);
+    put(C.books, .25, () => C.bookC.push(pick(BOOKC)));
+    if (rnd() < .5) { const [x, z] = P(rr(-.35, .35), rr(.3, .44)), a = rr(-.5, .5), n = 1 + Math.floor(rnd() * 5); for (let k = 0; k < n; k++) C.sheets.push(Mx(x + rr(-.015, .015), TOP + .002 + k * .0035, z + rr(-.015, .015), a + rr(-.12, .12))); }
+    if (sp.occ && rnd() < .32) { const [x, z] = P(rnd() < .5 ? -.52 : .52, 1.02); C.packs.push(Mx(x, .21, z, rr(0, 6.28), rr(-.28, -.1))); C.packC.push(pick(PACKC)); }
+    if (rnd() < .24) { const [x, z] = P(.8, .52); C.bins.push(Mx(x, 0, z)); }
+    const nb = rnd() < .2 ? 1 + Math.floor(rnd() * 2) : 0;
+    for (let k = 0; k < nb; k++) { const [x, z] = P(rr(-.8, .8), rr(.95, 1.7)); C.balls.push(Mx(x, .03, z, rr(0, 6.28), rr(0, 3), rr(.75, 1.2))); }
+  }
+  const instC = (geo, mat, mats, cols, shadow = false) => { if (!mats.length) return; const m = inst(geo, mat, mats, shadow); if (cols) cols.forEach((c, i) => m.setColorAt(i, c)); };
+  instC(cupGeo, cupMats, C.cups); instC(canGeo, canMat, C.cans, C.canC); instC(bottleGeo, bottleMat, C.bottles);
+  instC(chineseGeo, paperMat, C.chinese); instC(shellGeo, foamMat, C.shells); instC(bagGeo, kraftMat, C.bags);
+  instC(sheetGeo, paperMat, C.sheets); instC(bookGeo, new THREE.MeshStandardMaterial({ color: '#fff', roughness: .7 }), C.books, C.bookC);
+  instC(packGeo, new THREE.MeshStandardMaterial({ color: '#fff', roughness: .9 }), C.packs, C.packC, true);
+  instC(binGeo, binMat, C.bins, null, true); instC(ballGeo, paperMat, C.balls, null, true);
+
   // ---------- hero seat ----------
   const H = new THREE.Group(); H.position.set(HERO.x, 0, HERO.z); scene.add(H);
   heroTex = new THREE.CanvasTexture(hc); heroTex.colorSpace = THREE.SRGBColorSpace; heroTex.anisotropy = 8;
@@ -789,6 +847,15 @@ function build() {
   const mug = new THREE.Mesh(new THREE.CylinderGeometry(.045, .04, .11, 20), new THREE.MeshPhysicalMaterial({ color: '#f2efe8', roughness: .2, clearcoat: 1 })); mug.position.set(-.62, .815, .55); mug.castShadow = true; H.add(mug);
   const note = new THREE.Mesh(new THREE.BoxGeometry(.21, .008, .28), new THREE.MeshStandardMaterial({ color: '#f7f5ee', roughness: .9 })); note.position.set(-.42, .764, .72); note.rotation.y = .2; H.add(note);
   const pen = new THREE.Mesh(new THREE.CylinderGeometry(.005, .005, .14, 8), blackMat); pen.rotation.set(Math.PI / 2, 0, .6); pen.position.set(-.4, .772, .7); H.add(pen);
+  // his desk is the messiest one on the floor
+  const addH = (geo, mat, x, y, z, ry = 0) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.rotation.y = ry; m.castShadow = true; H.add(m); return m; };
+  addH(CLUTTER.cupGeo, CLUTTER.cupMats, .84, .762, .84, .4);
+  addH(CLUTTER.cupGeo, CLUTTER.cupMats, -.84, .762, .34, 1.2);
+  const can = addH(CLUTTER.canGeo, CLUTTER.canMat.clone(), .56, .762, .86); can.material.color.set('#1f4fbf');
+  addH(CLUTTER.chineseGeo, CLUTTER.paperMat, -.82, .762, .78, .3);
+  const chop = new THREE.CylinderGeometry(.003, .004, .22, 6); [-.006, .006].forEach(o => { const c = addH(chop, new THREE.MeshStandardMaterial({ color: '#d9b98a', roughness: .8 }), -.8 + o, .83, .77); c.rotation.set(.25, 0, .35); });
+  for (let k = 0; k < 4; k++) addH(CLUTTER.sheetGeo, CLUTTER.paperMat, .22 + k * .006, .764 + k * .0035, .42, -.25 + k * .07);
+  const phone = addH(new RoundedBoxGeometry(.075, .009, .155, 2, .006), blackMat, .08, .767, .88, .25);
   const hc2 = new THREE.Mesh(chairGeo, chairMats); hc2.position.set(0, 0, 1.15); hc2.castShadow = true; H.add(hc2);
 }
 
@@ -949,8 +1016,8 @@ async function loadEnv(manager) {
    Camera path: long view down the floor → over the shoulder
    ========================================================= */
 const KEY = [
-  small ? { p: [0, 2.3, 21.5], l: [0, -2.2, -30] } : { p: [0, 2.9, 21.5], l: [0, 2.0, -36] },
-  { p: [-5, 3.0, 8.5],                 l: [3, 1.5, -22] },
+  small ? { p: [0, 2.3, 11], l: [0, -1.4, -25] } : { p: [0, 2.9, 11], l: [0, 1.9, -25] },
+  { p: [-4, 2.8, 5],                   l: [3, 1.4, -18] },
   { p: [-.6, 2.4, -1.4],               l: [HERO.x, 1.15, -8.5] },
   { p: [HERO.x + 1.5, 1.85, HERO.z + 3.4], l: [HERO.x, 1.15, HERO.z + .2] },
   small ? { p: [HERO.x + .75, 1.85, HERO.z + 3.1], l: [HERO.x - .05, 1.1, HERO.z + .2] }
