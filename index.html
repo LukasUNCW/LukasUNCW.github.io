@@ -849,6 +849,8 @@ async function loadPeople(manager) {
   hero.traverse(o => { if (o.isMesh) { o.castShadow = true; o.frustumCulled = false; } });
   scene.add(hero);
   const hm = new THREE.AnimationMixer(hero); hm.clipAction(heroT.clip).play(); mixers.push(hm);
+  hm.update(0); hero.updateMatrixWorld(true);
+  animeHero(hero, tex);
 
   // frozen crowd: two poses per avatar, instanced
   const groups = new Map();
@@ -860,6 +862,80 @@ async function loadPeople(manager) {
     list.forEach((s, i) => im.setMatrixAt(i, m4.compose(vv.set(s.x, 0, s.z), qq.setFromEuler(new THREE.Euler(0, s.ry + Math.PI, 0)), one)));
     im.castShadow = !small; im.computeBoundingSphere(); scene.add(im);
   }
+}
+
+/* The trader at the terminal: an original anime-style lead.
+   Cel shading, ink outline, spiky blond hair, blue eyes, royal-blue shirt. */
+function animeHero(hero, tex) {
+  const g = new Uint8Array([70, 70, 70, 255, 150, 150, 150, 255, 255, 255, 255, 255]);
+  const ramp = new THREE.DataTexture(g, 3, 1); ramp.minFilter = ramp.magFilter = THREE.NearestFilter; ramp.needsUpdate = true;
+  const INK = '#0a0c12';
+  const outline = (w, skinned) => {
+    const m = new THREE.MeshBasicMaterial({ color: INK, side: THREE.BackSide });
+    m.onBeforeCompile = sh => { sh.vertexShader = sh.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>\n transformed += normalize(${skinned ? 'objectNormal' : 'normal'}) * ${w.toFixed(4)};`); };
+    return m;
+  };
+  let mesh; hero.traverse(o => { if (o.isSkinnedMesh) mesh = o; });
+  mesh.material = [
+    new THREE.MeshToonMaterial({ map: tex('assets/people/hero_body_color.jpg'), gradientMap: ramp }),
+    new THREE.MeshToonMaterial({ map: tex('assets/people/hero_head_color.jpg'), gradientMap: ramp }),
+  ];
+  // ink outline: same skinned geometry, pushed out along normals, back faces only (object units are cm)
+  const ol = new THREE.SkinnedMesh(mesh.geometry, outline(.55, true));
+  ol.bind(mesh.skeleton, mesh.bindMatrix); ol.position.copy(mesh.position); ol.quaternion.copy(mesh.quaternion); ol.scale.copy(mesh.scale);
+  ol.frustumCulled = false; mesh.parent.add(ol);
+
+  // measure the posed head from its skinned vertices
+  const geo = mesh.geometry, pos = geo.attributes.position, idx = geo.index, v = new THREE.Vector3(), pts = [];
+  const grp = geo.groups.filter(gr => gr.materialIndex === 1);
+  for (const gr of grp) for (let k = gr.start; k < gr.start + gr.count; k += 3) {
+    const i = idx ? idx.getX(k) : k; v.fromBufferAttribute(pos, i); mesh.applyBoneTransform(i, v); v.applyMatrix4(mesh.matrixWorld); pts.push(v.clone());
+  }
+  const top = Math.max(...pts.map(p => p.y)), cap = pts.filter(p => p.y > top - .13);
+  const cx = cap.reduce((a, p) => a + p.x, 0) / cap.length, cz = cap.reduce((a, p) => a + p.z, 0) / cap.length;
+  const rad = Math.max(.085, (Math.max(...cap.map(p => p.x)) - Math.min(...cap.map(p => p.x))) / 2);
+  const C = new THREE.Vector3(cx, top - rad * .95, cz);
+  const fwd = new THREE.Vector3(0, 0, 1).applyQuaternion(hero.quaternion).setY(0).normalize();
+  const side = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), fwd).normalize(), up = new THREE.Vector3(0, 1, 0);
+
+  // layered, swept anime cut: smooth cap + locks falling back and down + side-swept bangs
+  let seed = 7; const r = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const spikes = [];
+  const addSpike = (base, dir, len, w) => {
+    const c = new THREE.ConeGeometry(w, len, 5, 1); c.translate(0, len / 2, 0);
+    c.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(up, dir.clone().normalize()));
+    c.translate(base.x, base.y, base.z); c.deleteAttribute('uv'); spikes.push(c.toNonIndexed());
+  };
+  const capC = C.clone().addScaledVector(fwd, -rad * .08).addScaledVector(up, rad * .06);
+  const capG = new THREE.SphereGeometry(rad * 1.08, 24, 14, 0, Math.PI * 2, 0, Math.PI * .56);
+  capG.scale(1, .92, 1.08); capG.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), fwd)); capG.translate(capC.x, capC.y, capC.z);
+  capG.deleteAttribute('uv'); spikes.push(capG.toNonIndexed());
+  const dirAt = (u, vv) => new THREE.Vector3().addScaledVector(side, Math.sin(vv) * Math.cos(u)).addScaledVector(fwd, Math.sin(vv) * Math.sin(u)).addScaledVector(up, Math.cos(vv));
+  for (let i = 0; i < 40; i++) {                                           // locks around the back and sides
+    const u = Math.PI + (r() - .5) * Math.PI * 1.55, vv = .55 + r() * .75;  // behind and beside the head
+    const d = dirAt(u, vv);
+    const base = capC.clone().addScaledVector(d, rad * .98);
+    const dir = d.clone().multiplyScalar(.35).addScaledVector(up, -1).addScaledVector(fwd, -.25);
+    addSpike(base, dir, rad * (.75 + r() * .55), rad * (.22 + r() * .1));
+  }
+  for (let i = 0; i < 12; i++) {                                           // crown swept back
+    const d = dirAt(r() * Math.PI * 2, r() * .5);
+    const base = capC.clone().addScaledVector(d, rad * .95);
+    addSpike(base, fwd.clone().multiplyScalar(-1).addScaledVector(up, .18).addScaledVector(d, .3), rad * (.7 + r() * .35), rad * .24);
+  }
+  for (const t of [-.75, -.45, -.15, .15, .45]) {                            // side-swept bangs
+    const d = new THREE.Vector3().addScaledVector(fwd, .8).addScaledVector(up, .5).addScaledVector(side, t * .6).normalize();
+    const base = capC.clone().addScaledVector(d, rad * .96);
+    addSpike(base, fwd.clone().multiplyScalar(.25).addScaledVector(up, -1).addScaledVector(side, .55), rad * (.6 + r() * .35), rad * .22);
+  }
+  const hairGeo = mergeGeometries(spikes); hairGeo.computeVertexNormals();
+  const hairGroup = new THREE.Group();
+  const hair = new THREE.Mesh(hairGeo, new THREE.MeshToonMaterial({ color: '#f4c65a', gradientMap: ramp }));
+  hair.castShadow = true;
+  const hairInk = new THREE.Mesh(hairGeo, outline(.0045, false));
+  hairGroup.add(hair, hairInk); scene.add(hairGroup);
+  let head; hero.traverse(o => { if (o.name === 'Bip01_Head') head = o; });
+  head.attach(hairGroup);  // follows the head as he breathes
 }
 
 async function loadEnv(manager) {
