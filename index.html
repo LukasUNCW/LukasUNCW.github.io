@@ -3,301 +3,955 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lukas Nilsson - MSCSIS Graduate</title>
-
+<title>Lukas Nilsson · Risk Analytics</title>
+<meta name="description" content="Lukas Nilsson builds quantitative risk tools. Walk the trading floor.">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0f0f0d;
-    --paper: #f5f3ee;
-    --paper2: #ede9e1;
-    --accent: #1a3a5c;
-    --accent2: #c8392b;
-    --muted: #7a7670;
-    --border: rgba(15,15,13,0.12);
-    --serif: Georgia, 'Times New Roman', serif;
-    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    --mono: 'Courier New', Courier, monospace;
+    --bg: #05060a;
+    --text: #eef1f5;
+    --soft: #a3adba;
+    --dim: #5f6a78;
+    --amber: #ffb000;
+    --line: rgba(255,255,255,.1);
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: rgba(245,243,238,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-  .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--ink); }
-  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 5rem; }
-  .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 5rem 3rem; border-right: 1px solid var(--border); }
-  .hero-eyebrow { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent2); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.7s ease 0.1s forwards; }
-  .hero-name { font-family: var(--serif); font-size: clamp(3rem, 5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.7s ease 0.25s forwards; }
-  .hero-name em { font-style: italic; color: var(--accent); }
-  .hero-role { font-family: var(--serif); font-size: clamp(1.4rem, 2.5vw, 2rem); font-style: italic; color: var(--muted); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s ease 0.35s forwards; }
-  .hero-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.75; max-width: 400px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.7s ease 0.45s forwards; }
-  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s ease 0.55s forwards; }
-  .btn-primary { display: inline-block; padding: 0.75rem 1.75rem; background: var(--accent); color: #fff; font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.15s; }
-  .btn-primary:hover { background: #0d2a45; transform: translateY(-1px); }
-  .btn-secondary { display: inline-block; padding: 0.75rem 1.75rem; border: 1px solid var(--ink); color: var(--ink); font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.15s; }
-  .btn-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-1px); }
-  .hero-right { display: flex; flex-direction: column; justify-content: center; padding: 5rem 3rem; background: var(--paper2); opacity: 0; animation: fadeIn 1s ease 0.6s forwards; }
-  .hero-stat-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; }
-  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-  .stat-item { padding: 1.75rem; border: 1px solid var(--border); border-bottom: none; border-right: none; }
-  .stat-item:nth-child(even) { border-right: 1px solid var(--border); }
-  .stat-item:nth-child(n+3) { border-bottom: 1px solid var(--border); }
-  .stat-num { font-family: var(--serif); font-size: 2.5rem; line-height: 1; color: var(--accent); margin-bottom: 0.4rem; }
-  .stat-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
-  .skills-list { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .skill-tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; padding: 0.3rem 0.75rem; border: 1px solid var(--border); color: var(--muted); background: var(--paper); }
-  section { position: relative; }
-  .section-header { display: flex; align-items: baseline; gap: 1.5rem; padding: 3rem 3rem 2rem; border-bottom: 1px solid var(--border); }
-  .section-num { font-family: var(--mono); font-size: 0.65rem; color: var(--accent2); letter-spacing: 0.1em; }
-  .section-title { font-family: var(--serif); font-size: 2rem; letter-spacing: -0.02em; }
-  .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-left: 1px solid var(--border); }
-  .project-card { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2rem 2rem 1.75rem; display: flex; flex-direction: column; transition: background 0.2s; text-decoration: none; color: inherit; }
-  .project-card:hover { background: var(--paper2); }
-  .project-card:hover .card-arrow { transform: translate(3px, -3px); }
-  .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.25rem; }
-  .card-index { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--accent2); }
-  .card-arrow { font-size: 1.1rem; color: var(--muted); transition: transform 0.2s ease; }
-  .card-title { font-family: var(--serif); font-size: 1.25rem; line-height: 1.25; margin-bottom: 0.75rem; letter-spacing: -0.01em; }
-  .card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; flex: 1; margin-bottom: 1.5rem; }
-  .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
-  .card-tag { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.05em; padding: 0.2rem 0.6rem; background: var(--paper2); border: 1px solid var(--border); color: var(--muted); }
-  .card-links { display: flex; gap: 1rem; padding-top: 1.25rem; border-top: 1px solid var(--border); margin-top: auto; }
-  .card-link { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); text-decoration: none; transition: color 0.15s; }
-  .card-link:hover { color: var(--accent2); }
-  .card-link-gh { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.15s; }
-  .card-link-gh:hover { color: var(--ink); }
-  .about-strip { display: grid; grid-template-columns: 1fr 2fr; border-top: 1px solid var(--border); }
-  .about-left { padding: 3rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
-  .about-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
-  .about-name-big { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1.1; letter-spacing: -0.02em; }
-  .about-name-big em { font-style: italic; color: var(--accent); }
-  .about-right { padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .about-block-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.75rem; }
-  .about-block-text { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
-  .cert-list { list-style: none; font-size: 0.85rem; color: var(--muted); line-height: 2; }
-  .cert-list li::before { content: '—'; margin-right: 0.5rem; color: var(--accent2); font-family: var(--mono); }
-  footer { border-top: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; }
-  .footer-left { padding: 3rem; border-right: 1px solid var(--border); }
-  .footer-title { font-family: var(--serif); font-size: 1.75rem; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
-  .footer-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 2rem; }
-  .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
-  .contact-link { display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: var(--ink); text-decoration: none; transition: color 0.15s; }
-  .contact-link:hover { color: var(--accent); }
-  .contact-link-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; min-width: 60px; }
-  .footer-right { padding: 3rem; display: flex; flex-direction: column; justify-content: space-between; }
-  .footer-tagline { font-family: var(--serif); font-size: 1.1rem; font-style: italic; color: var(--muted); line-height: 1.5; max-width: 320px; }
-  .footer-bottom { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--muted); }
-  .ticker-strip { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0.6rem 0; background: var(--accent); }
-  .ticker-inner { display: flex; animation: ticker 22s linear infinite; white-space: nowrap; }
-  .ticker-item { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding: 0 2rem; }
-  .ticker-item span { color: rgba(255,255,255,0.35); margin: 0 0.5rem; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.5rem; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-left { padding: 4rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--border); }
-    .hero-right { padding: 2rem 1.5rem 3rem; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .section-header { padding: 2rem 1.5rem 1.5rem; }
-    .project-card { border-left: none; }
-    .about-strip { grid-template-columns: 1fr; }
-    .about-left { border-right: none; border-bottom: 1px solid var(--border); }
-    .about-right { grid-template-columns: 1fr; }
-    footer { grid-template-columns: 1fr; }
-    .footer-left { border-right: none; border-bottom: 1px solid var(--border); }
-    .project-card.span2 { grid-column: span 1; }
+  html { background: var(--bg); }
+  body { color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; background: var(--bg); }
+  a { color: inherit; }
+  ::selection { background: var(--amber); color: #000; }
+
+  #stage { position: fixed; inset: 0; z-index: 0; }
+  #gl { width: 100%; height: 100%; display: block; }
+  body.nogl #stage { background: linear-gradient(180deg, #2a3366 0%, #93567a 45%, #f39a62 70%, #1c1a22 100%); }
+
+  #loader { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; background: var(--bg); transition: opacity .8s ease, visibility .8s; font-family: var(--mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
+  #loader span::after { content: ''; display: inline-block; width: 7px; height: 12px; margin-left: 6px; background: var(--amber); vertical-align: -1px; animation: blink 1s steps(2) infinite; }
+  body.ready #loader { opacity: 0; visibility: hidden; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .top { position: fixed; top: 0; left: 0; right: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; padding: 22px 32px; pointer-events: none; }
+  .top > * { pointer-events: auto; }
+  .mark { font-family: var(--serif); font-size: 24px; text-decoration: none; letter-spacing: -.01em; }
+  .mark i { color: var(--amber); }
+  .top nav { display: flex; gap: 26px; font-size: 13px; }
+  .top nav a { text-decoration: none; color: var(--soft); transition: color .2s; }
+  .top nav a:hover { color: var(--text); }
+
+  /* ---------- intro beats ---------- */
+  #intro { position: relative; z-index: 10; height: 560vh; }
+  .beats { position: sticky; top: 0; height: 100vh; pointer-events: none; background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(8,8,14,.38), transparent 75%); }
+  .beat { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 8vw; opacity: 0; will-change: opacity, transform; }
+  .beat.center { align-items: center; text-align: center; }
+  .beat.low { justify-content: flex-end; padding-bottom: 14vh; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--amber); margin-bottom: 18px; }
+  h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(4rem, 12vw, 10.5rem); line-height: .9; letter-spacing: -.03em; text-shadow: 0 4px 60px rgba(0,0,0,.6); }
+  h1 em { color: var(--amber); }
+  .beat .sub { margin-top: 22px; font-size: clamp(1rem, 1.6vw, 1.2rem); color: var(--soft); text-shadow: 0 2px 20px rgba(0,0,0,.8); }
+  .beat h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 5.4vw, 4.6rem); line-height: 1.02; letter-spacing: -.02em; max-width: 15ch; text-shadow: 0 4px 40px rgba(0,0,0,.85); }
+  .beat h2 em { color: var(--amber); }
+  .beat p.body { max-width: 40ch; margin-top: 20px; color: var(--soft); font-size: 1.05rem; text-shadow: 0 2px 20px rgba(0,0,0,.9); }
+  .cue { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--soft); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .cue::after { content: ''; width: 1px; height: 44px; background: linear-gradient(var(--amber), transparent); animation: drip 2s ease-in-out infinite; transform-origin: top; }
+  @keyframes drip { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* ---------- content over the screen ---------- */
+  #content { position: relative; z-index: 10; }
+  #content::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: var(--shade, 0); background: linear-gradient(90deg, rgba(5,6,10,.94) 0%, rgba(5,6,10,.86) 34%, rgba(5,6,10,.2) 58%, rgba(5,6,10,0) 70%); transition: opacity .3s; }
+  .col { width: min(560px, 44vw); margin-left: 7vw; }
+  .chapter { font-family: var(--mono); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--amber); padding-top: 22vh; margin-bottom: 8px; }
+  .chapter-title { font-family: var(--serif); font-weight: 400; font-size: clamp(2.4rem, 4.4vw, 3.6rem); line-height: 1; letter-spacing: -.02em; }
+  .chapter-title em { color: var(--soft); }
+
+  .work { min-height: 88vh; display: flex; flex-direction: column; justify-content: center; padding: 8vh 0; opacity: .28; transition: opacity .5s ease; }
+  .work.on { opacity: 1; }
+  .work .idx { font-family: var(--mono); font-size: 12px; color: var(--dim); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 14px; }
+  .work .idx b { color: var(--amber); font-weight: 500; margin-right: 10px; }
+  .work h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 3.4vw, 2.9rem); line-height: 1.04; letter-spacing: -.015em; margin-bottom: 16px; }
+  .work p { color: var(--soft); font-size: 1.02rem; margin-bottom: 26px; max-width: 46ch; }
+  .stat { display: flex; align-items: baseline; gap: 16px; padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 22px; }
+  .stat b { font-family: var(--serif); font-weight: 400; font-size: 3.2rem; line-height: 1; color: var(--amber); white-space: nowrap; }
+  .stat span { font-size: .92rem; color: var(--soft); line-height: 1.45; }
+  .stack { font-family: var(--mono); font-size: 12px; color: var(--dim); margin-bottom: 22px; }
+  .go { display: inline-flex; gap: 10px; align-items: center; font-size: 14px; font-weight: 500; text-decoration: none; color: var(--text); padding-bottom: 3px; border-bottom: 1px solid var(--amber); width: fit-content; transition: gap .2s, color .2s; }
+  .go:hover { gap: 16px; color: var(--amber); }
+
+  .about { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+  .about p { color: var(--soft); font-size: 1.08rem; margin-top: 20px; max-width: 46ch; }
+  .about p strong { color: var(--text); font-weight: 500; }
+  .kit { margin-top: 30px; display: grid; grid-template-columns: 110px 1fr; gap: 10px 16px; font-size: 14px; }
+  .kit dt { font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); padding-top: 2px; }
+  .kit dd { color: var(--soft); }
+
+  .contact { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+  .contact .big { font-family: var(--serif); font-size: clamp(3rem, 6vw, 5.2rem); line-height: .98; letter-spacing: -.025em; margin: 6px 0 22px; }
+  .contact .big em { color: var(--amber); }
+  .contact p { color: var(--soft); max-width: 40ch; margin-bottom: 30px; }
+  .mail { font-family: var(--serif); font-size: clamp(1.6rem, 2.6vw, 2.2rem); text-decoration: none; border-bottom: 1px solid var(--amber); width: fit-content; transition: color .2s; }
+  .mail:hover { color: var(--amber); }
+  .socials { display: flex; gap: 28px; margin-top: 34px; font-size: 14px; }
+  .socials a { color: var(--soft); text-decoration: none; transition: color .2s; }
+  .socials a:hover { color: var(--amber); }
+  footer { position: relative; z-index: 10; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 28px 7vw 34px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--dim); }
+
+  @media (max-width: 860px) {
+    .top { padding: 18px 20px; }
+    .top nav { gap: 18px; }
+    .beat { padding: 0 24px; }
+    .col { width: auto; margin: 0 24px; }
+    #content::before { background: linear-gradient(180deg, rgba(5,6,10,.55), rgba(5,6,10,.9) 45%, rgba(5,6,10,.9)); }
+    .work { min-height: 100vh; justify-content: flex-end; padding-bottom: 12vh; }
+    .work .body-wrap { background: rgba(5,6,10,.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 22px; margin: 0 -22px; border: 1px solid var(--line); }
+    .stat b { font-size: 2.6rem; }
+    footer { padding: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cue::after, #loader span::after { animation: none; }
+    .work { transition: none; }
   }
 </style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
 </head>
 <body>
 
-<nav>
-  <a href="#" class="nav-logo">Lukas Nilsson</a>
-  <ul class="nav-links">
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+<div id="stage"><canvas id="gl" aria-hidden="true"></canvas></div>
+<div id="loader"><span>Opening the floor</span></div>
 
-<section class="hero">
-  <div class="hero-left">
-    <p class="hero-eyebrow">// Project Portfolio</p>
-    <h1 class="hero-name">Lukas<br><em>Nilsson</em></h1>
-    <p class="hero-role">MSCSIS Graduate</p>
-    <p class="hero-desc">Building quantitative tools in market risk, credit risk, and portfolio stress testing, using Python, live market data, and industry-standard methodologies.</p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn-primary">View projects</a>
-      <a href="mailto:lukas@lukas-nilsson.com" class="btn-secondary">Get in touch</a>
+<header class="top">
+  <a class="mark" href="#top">L<i>.</i>N</a>
+  <nav><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+</header>
+
+<section id="intro">
+  <div class="beats" id="top">
+    <div class="beat center" data-a="0" data-b=".15">
+      <div class="kicker">Manhattan · 38th floor · golden hour</div>
+      <h1>Lukas<br>Nilsson<em>.</em></h1>
+      <div class="sub">Risk analytics &amp; quantitative development</div>
+      <div class="cue">Scroll to walk the floor</div>
     </div>
-  </div>
-  <div class="hero-right">
-    <p class="hero-stat-label">// Portfolio at a glance</p>
-    <div class="stats-grid">
-      <div class="stat-item"><div class="stat-num">4</div><div class="stat-desc">Projects</div></div>
-      <div class="stat-item"><div class="stat-num">3</div><div class="stat-desc">Domains (Risk, Analytics, Data Eng.)</div></div>
-      <div class="stat-item"><div class="stat-num">3</div><div class="stat-desc">VaR methodologies implemented</div></div>
-      <div class="stat-item"><div class="stat-num">3</div><div class="stat-desc">APIs / data sources integrated</div></div>
+    <div class="beat" data-a=".22" data-b=".44">
+      <h2>Every screen on this floor is asking the same question:</h2>
+      <h2 style="margin-top:10px"><em>how much could we lose?</em></h2>
     </div>
-    <div class="skills-list">
-      <span class="skill-tag">Python</span>
-      <span class="skill-tag">pandas</span>
-      <span class="skill-tag">NumPy</span>
-      <span class="skill-tag">scikit-learn</span>
-      <span class="skill-tag">VaR</span>
-      <span class="skill-tag">Monte Carlo</span>
-      <span class="skill-tag">Credit Risk</span>
-      <span class="skill-tag">R</span>
-      <span class="skill-tag">Databricks</span>
-      <span class="skill-tag">PySpark</span>
+    <div class="beat" data-a=".52" data-b=".74" style="align-items:flex-end;text-align:right">
+      <h2>I build the tools that answer it.</h2>
+      <p class="body">I'm an MSCSIS grad from UNC Wilmington. I take risk theory, turn it into working models, then check them against what actually happened.</p>
+    </div>
+    <div class="beat low center" data-a=".86" data-b="1.02">
+      <div class="kicker">Pull up a chair</div>
+      <h2 style="max-width:none">Here's what's on my screen.</h2>
     </div>
   </div>
 </section>
 
-<div class="ticker-strip">
-  <div class="ticker-inner">
-    <span class="ticker-item">Value at Risk<span>·</span></span>
-    <span class="ticker-item">Monte Carlo Simulation<span>·</span></span>
-    <span class="ticker-item">Credit Scoring<span>·</span></span>
-    <span class="ticker-item">Stress Testing<span>·</span></span>
-    <span class="ticker-item">Correlation Analysis<span>·</span></span>
-    <span class="ticker-item">Expected Loss<span>·</span></span>
-    <span class="ticker-item">Risk Dashboard<span>·</span></span>
-    <span class="ticker-item">Value at Risk<span>·</span></span>
-    <span class="ticker-item">Monte Carlo Simulation<span>·</span></span>
-    <span class="ticker-item">Credit Scoring<span>·</span></span>
-    <span class="ticker-item">Stress Testing<span>·</span></span>
-    <span class="ticker-item">Correlation Analysis<span>·</span></span>
-    <span class="ticker-item">Expected Loss<span>·</span></span>
-    <span class="ticker-item">Risk Dashboard<span>·</span></span>
+<main id="content">
+  <div class="col">
+    <div class="chapter" id="work">On my screen</div>
+    <div class="chapter-title">Four models, <em>all backtested.</em></div>
+
+    <article class="work" data-mode="var">
+      <div class="body-wrap">
+        <div class="idx"><b>01</b>Market risk</div>
+        <h3>The VaR engine that put five models on trial</h3>
+        <p>Five Value-at-Risk models forecast out-of-sample every trading day for ten years on a stock/bond/gold portfolio, then judged with the same backtests banks use to validate their own risk engines.</p>
+        <div class="stat"><b>1.19%</b><span>exception rate for Extreme Value Theory, the only model to pass Kupiec. The Normal-based models breached 2.5× too often.</span></div>
+        <div class="stack">Python · GARCH · EVT · SciPy · Streamlit</div>
+        <a class="go" href="https://github.com/LukasUNCW/VaR-Risk-Modeling-Backtesting-Engine" target="_blank" rel="noopener">See the code <span>→</span></a>
+      </div>
+    </article>
+
+    <article class="work" data-mode="ao">
+      <div class="body-wrap">
+        <div class="idx"><b>02</b>Simulation</div>
+        <h3>100,000 Australian Opens before the first serve</h3>
+        <p>A surface-weighted Elo model, frozen on January 1, 2024, played the real 128-player draw a hundred thousand times. Then Melbourne played it once.</p>
+        <div class="stat"><b>16.1%</b><span>title odds for Jannik Sinner, the model's #2 pick. He won it.</span></div>
+        <div class="stack">Python · Monte Carlo · Elo · NumPy</div>
+        <a class="go" href="https://github.com/LukasUNCW/Australian-Open-2024-Monte-Carlo-Simulation" target="_blank" rel="noopener">See the code <span>→</span></a>
+      </div>
+    </article>
+
+    <article class="work" data-mode="solr">
+      <div class="body-wrap">
+        <div class="idx"><b>03</b>Time series</div>
+        <h3>Does the Sun tell you what happens at Earth?</h3>
+        <p>Sixty years of NOAA space-weather data, forecast six years out with ARIMA, a vector autoregression and a dynamic regression, to see whether solar activity predicts geomagnetic storms.</p>
+        <div class="stat"><b>−45%</b><span>sunspot forecast error from modelling the series together instead of one at a time.</span></div>
+        <div class="stack">R · ARIMA · VAR · dynamic regression</div>
+        <a class="go" href="https://github.com/LukasUNCW/Solar-Activity-and-Geomagnetic-Forecasting" target="_blank" rel="noopener">See the code <span>→</span></a>
+      </div>
+    </article>
+
+    <article class="work" data-mode="rent">
+      <div class="body-wrap">
+        <div class="idx"><b>04</b>Data engineering</div>
+        <h3>A pipeline that found my house</h3>
+        <p>Every morning at 7:30, a Databricks pipeline pulls live Wilmington rentals, cleans them Bronze → Silver → Gold, and has Claude score each one against what my roommates and I wanted.</p>
+        <div class="stat"><b>$583</b><span>a month per person for the top-scored listing, out of 50 scored each run.</span></div>
+        <div class="stack">Databricks · PySpark · Delta Lake · Claude API</div>
+        <a class="go" href="https://github.com/LukasUNCW/Wilmington-Rental-Pipeline" target="_blank" rel="noopener">See the code <span>→</span></a>
+      </div>
+    </article>
+
+    <section class="about work" id="about" data-mode="about">
+      <div class="body-wrap">
+        <div class="chapter" style="padding-top:0">About</div>
+        <div class="chapter-title">I learn by <em>building.</em></div>
+        <p>I finished my <strong>MS in Computer Science &amp; Information Systems at UNC Wilmington</strong> and I'm heading for risk. Every concept I pick up, from VaR to credit loss to forecasting, becomes a working tool, and every tool gets backtested. A model is only as good as its out-of-sample record.</p>
+        <p>Outside the models: tennis, space weather, and apparently finding houses with LLMs.</p>
+        <dl class="kit">
+          <dt>Languages</dt><dd>Python, R, SQL</dd>
+          <dt>Quant</dt><dd>pandas, NumPy, SciPy, scikit-learn, arch</dd>
+          <dt>Data</dt><dd>Databricks, PySpark, Delta Lake, APIs</dd>
+          <dt>Risk</dt><dd>VaR &amp; CVaR, GARCH, EVT, credit risk, Basel III</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="contact work" id="contact" data-mode="contact">
+      <div class="body-wrap">
+        <div class="chapter" style="padding-top:0">Contact</div>
+        <div class="big">Got a seat<br>on the <em>floor?</em></div>
+        <p>I'm looking for risk analyst roles and internships, and I'm always up for talking models.</p>
+        <a class="mail" href="mailto:lukas@lukas-nilsson.com">lukas@lukas-nilsson.com</a>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/lukas-nilsson" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://github.com/LukasUNCW" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+    </section>
   </div>
-</div>
+</main>
 
-<section id="projects">
-  <div class="section-header reveal">
-    <span class="section-num">01</span>
-    <h2 class="section-title">Projects</h2>
-  </div>
-  <div class="projects-grid">
+<footer><span>© <span id="yr">2026</span> Lukas Nilsson</span><span>3D people: <a href="https://github.com/microsoft/Microsoft-Rocketbox" target="_blank" rel="noopener">Microsoft Rocketbox</a> (MIT) · sky: <a href="https://polyhaven.com/a/venice_sunset" target="_blank" rel="noopener">Poly Haven</a> (CC0)</span><span>"I guess we'll never know" — ye</span></footer>
 
-    <a class="project-card reveal" href="https://github.com/LukasUNCW/VaR-Risk-Modeling-Backtesting-Engine" target="_blank" style="transition-delay:0.1s">
-      <div class="card-top"><span class="card-index">01</span><span class="card-arrow">&#8599;</span></div>
-      <h3 class="card-title">VaR Backtesting Engine</h3>
-      <p class="card-desc">Python engine implementing Historical, Parametric, and Monte Carlo VaR with rolling backtesting, Kupiec POF statistical validation, and visual diagnostics for portfolio tail risk.</p>
-      <div class="card-tags"><span class="card-tag">VaR</span><span class="card-tag">Backtesting</span><span class="card-tag">Kupiec POF</span><span class="card-tag">Monte Carlo</span><span class="card-tag">SciPy</span></div>
-      <div class="card-links">
-        <a class="card-link-gh" href="https://github.com/LukasUNCW/VaR-Risk-Modeling-Backtesting-Engine" target="_blank" onclick="event.stopPropagation()">GitHub</a>
-      </div>
-    </a>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
 
-    <a class="project-card reveal" href="https://github.com/LukasUNCW/Australian-Open-2024-Monte-Carlo-Simulation" target="_blank" style="transition-delay:0.05s">
-      <div class="card-top"><span class="card-index">02</span><span class="card-arrow">&#8599;</span></div>
-      <h3 class="card-title">Australian Open 2024 Monte Carlo</h3>
-      <p class="card-desc">Surface-weighted Elo model trained on 3 years of ATP data. Simulates the 2024 AO bracket 100,000 times to estimate title probabilities &mdash; Jannik Sinner ranked 2nd at 16.1%.</p>
-      <div class="card-tags"><span class="card-tag">Monte Carlo</span><span class="card-tag">Elo Rating</span><span class="card-tag">Sports Analytics</span><span class="card-tag">NumPy</span></div>
-      <div class="card-links">
-        <a class="card-link-gh" href="https://github.com/LukasUNCW/Australian-Open-2024-Monte-Carlo-Simulation" target="_blank" onclick="event.stopPropagation()">GitHub</a>
-      </div>
-    </a>
+const $ = s => document.querySelector(s);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const small = innerWidth < 860;
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-    <a class="project-card reveal" href="https://github.com/LukasUNCW/Solar-Activity-and-Geomagnetic-Forecasting" target="_blank" style="transition-delay:0.1s">
-      <div class="card-top"><span class="card-index">03</span><span class="card-arrow">&#8599;</span></div>
-      <h3 class="card-title">Solar &amp; Geomagnetic Forecasting</h3>
-      <p class="card-desc">R-based time series analysis forecasting sunspot activity, solar flux, and geomagnetic disturbances using ARIMA/SARIMA, Vector ARIMA, and dynamic regression on NOAA space weather data.</p>
-      <div class="card-tags"><span class="card-tag">R</span><span class="card-tag">ARIMA</span><span class="card-tag">SARIMA</span><span class="card-tag">Time Series</span><span class="card-tag">NOAA</span></div>
-      <div class="card-links">
-        <a class="card-link-gh" href="https://github.com/LukasUNCW/Solar-Activity-and-Geomagnetic-Forecasting" target="_blank" onclick="event.stopPropagation()">GitHub</a>
-      </div>
-    </a>
+/* =========================================================
+   Seeded random so the floor is the same every visit
+   ========================================================= */
+let _s = 20240128;
+const rnd = () => (_s = (_s * 16807) % 2147483647) / 2147483647;
+const rr = (a, b) => a + (b - a) * rnd();
+const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
 
-    <a class="project-card reveal" href="https://github.com/LukasUNCW/Wilmington-Rental-Pipeline" target="_blank" style="transition-delay:0.05s">
-      <div class="card-top"><span class="card-index">04</span><span class="card-arrow">&#8599;</span></div>
-      <h3 class="card-title">Wilmington Rental Pipeline</h3>
-      <p class="card-desc">Databricks medallion ETL pipeline ingesting live rental listings via RentCast API, transforming through Bronze/Silver/Gold layers, and using the Claude AI API to score each listing against preferences.</p>
-      <div class="card-tags"><span class="card-tag">Databricks</span><span class="card-tag">PySpark</span><span class="card-tag">Delta Lake</span><span class="card-tag">Claude API</span><span class="card-tag">ETL</span></div>
-      <div class="card-links">
-        <a class="card-link-gh" href="https://github.com/LukasUNCW/Wilmington-Rental-Pipeline" target="_blank" onclick="event.stopPropagation()">GitHub</a>
-      </div>
-    </a>
+const COL = { bg: '#04060a', amber: '#ffb000', cyan: '#4cc3ff', green: '#2bd576', red: '#ff4d4d', mute: '#5f6b79', line: '#16202b', text: '#d9e0e8' };
+const MONO = '"IBM Plex Mono", ui-monospace, Menlo, monospace';
 
-  </div>
-</section>
-
-<section id="about">
-  <div class="section-header reveal">
-    <span class="section-num">02</span>
-    <h2 class="section-title">About</h2>
-  </div>
-  <div class="about-strip">
-    <div class="about-left reveal">
-      <div>
-        <p class="about-label">// Who I am</p>
-        <h3 class="about-name-big">Lukas<br><em>Nilsson</em></h3>
-      </div>
-      <a href="mailto:lukas@lukas-nilsson.com" class="btn-primary" style="margin-top:2rem;align-self:flex-start">Get in touch</a>
-    </div>
-    <div class="about-right reveal" style="transition-delay:0.1s">
-      <div>
-        <p class="about-block-title">Background</p>
-        <p class="about-block-text">Focused on building practical risk analytics skills to enter the finance sector. Self-directed learner working through market risk, credit risk, and quantitative methods, building every concept into a working tool rather than just studying theory.</p>
-      </div>
-      <div>
-        <p class="about-block-title">Currently learning</p>
-        <p class="about-block-text">Deepening knowledge in quantitative risk methods through self-directed study and hands-on project work, building every concept into a working tool rather than studying theory alone.</p>
-      </div>
-      <div>
-        <p class="about-block-title">Technical skills</p>
-        <p class="about-block-text">Python · pandas · NumPy · SciPy · scikit-learn · SQL · Git · yfinance</p>
-      </div>
-      <div>
-        <p class="about-block-title">Risk domains</p>
-        <p class="about-block-text">Market risk · Credit risk · Operational risk · Stress testing · VaR · CVaR · Expected Loss · Basel III frameworks</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer id="contact">
-  <div class="footer-left reveal">
-    <h3 class="footer-title">Let's talk</h3>
-    <p class="footer-sub">Open to risk analyst roles, internships, and conversations about quantitative finance.</p>
-    <div class="contact-links">
-      <a class="contact-link" href="mailto:lukas@lukas-nilsson.com">
-        <span class="contact-link-label">Email</span>lpn5765@uncw.edu
-      </a>
-      <a class="contact-link" href="https://linkedin.com/in/lukas-nilsson" target="_blank">
-        <span class="contact-link-label">LinkedIn</span>linkedin.com/in/lukas-nilsson7
-      </a>
-      <a class="contact-link" href="https://github.com/lukas-nilsson" target="_blank">
-        <span class="contact-link-label">GitHub</span>github.com/LukasUNCW
-      </a>
-    </div>
-  </div>
-  <div class="footer-right reveal" style="transition-delay:0.1s">
-    <p class="footer-tagline">"I guess we'll never know" — ye</p>
-    <p class="footer-bottom">© 2026 Lukas Nilsson &nbsp;·&nbsp; lukas-nilsson.com</p>
-  </div>
-</footer>
-
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
+/* =========================================================
+   Small screens: shared canvas textures that keep ticking
+   ========================================================= */
+const CODES = ['SPX', 'NDX', 'UST10Y', 'EURUSD', 'CL1', 'GC1', 'VIX', 'USDJPY', 'JPM', 'GS', 'MS', 'BAC', 'HYG', 'TLT'];
+function makeSmallScreens(n) {
+  const list = [];
+  const kinds = ['quote', 'line', 'candles', 'quote', 'book', 'heat', 'quote', 'line', 'news', 'candles', 'quote', 'bars', 'line', 'quote'];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement('canvas'); c.width = 256; c.height = 150;
+    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+    const kind = kinds[i % kinds.length];
+    const hue = [COL.cyan, COL.green, COL.amber, COL.cyan, COL.red][i % 5];
+    const series = [0]; for (let k = 1; k < 60; k++) series[k] = series[k - 1] + gauss();
+    const quotes = CODES.slice().sort(() => rnd() - .5).slice(0, 9).map(c => [c, rr(20, 5000), 0]);
+    list.push({ c, ctx: c.getContext('2d'), tex, kind, hue, series, quotes });
+  }
+  return list;
+}
+function tickSmall(s) {
+  const { ctx, c } = s, W = c.width, H = c.height;
+  s.series.shift(); s.series.push(s.series[s.series.length - 1] + gauss());
+  ctx.fillStyle = COL.bg; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#10161f'; ctx.fillRect(0, 0, W, 15);
+  ctx.fillStyle = '#9a6d00'; ctx.fillRect(0, 0, 40, 15);
+  ctx.fillStyle = '#6c7888'; ctx.font = `10px ${MONO}`; ctx.textBaseline = 'middle'; ctx.fillText(s.kind === 'quote' ? 'MONITOR' : s.kind === 'news' ? 'TOP NEWS' : 'GP  1D', 48, 8);
+  const mn = Math.min(...s.series), mx = Math.max(...s.series), Y = v => 24 + (H - 32) * (1 - (v - mn) / (mx - mn || 1));
+  if (s.kind === 'quote') {
+    ctx.font = `600 11px ${MONO}`;
+    s.quotes.forEach((q, r) => {
+      if (Math.random() < .25) { const d = gauss() * q[1] * .0008; q[1] += d; q[2] = d; }
+      const y = 26 + r * 13.3;
+      ctx.fillStyle = COL.amber; ctx.fillText(q[0], 6, y);
+      ctx.fillStyle = COL.text; ctx.textAlign = 'right'; ctx.fillText(q[1].toFixed(2), 150, y);
+      ctx.fillStyle = q[2] >= 0 ? COL.green : COL.red; ctx.fillText((q[2] >= 0 ? '+' : '') + (q[2] / q[1] * 100).toFixed(2) + '%', 214, y);
+      ctx.textAlign = 'left';
+      if (Math.abs(q[2]) > 0 && Math.random() < .3) { ctx.fillStyle = q[2] >= 0 ? 'rgba(43,213,118,.25)' : 'rgba(255,77,77,.25)'; ctx.fillRect(100, y - 6, 52, 12); }
     });
-  }, { threshold: 0.1 });
+  } else if (s.kind === 'news') {
+    ctx.font = `10px ${MONO}`;
+    for (let r = 0; r < 9; r++) { ctx.fillStyle = r % 3 ? '#9aa6b3' : COL.amber; ctx.fillRect(6, 22 + r * 13.5, 20 + ((r * 97 + (s.series[0] | 0)) % 200), 5); }
+  } else if (s.kind === 'line' || s.kind === 'candles') {
+    ctx.strokeStyle = COL.line; ctx.lineWidth = 1; for (let y = 34; y < H; y += 24) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    if (s.kind === 'candles') {
+      for (let k = 1; k < 60; k += 2) { const up = s.series[k] >= s.series[k - 1], x = k / 60 * W, a = Y(s.series[k - 1]), b = Y(s.series[k]); ctx.fillStyle = up ? COL.green : COL.red; ctx.fillRect(x, Math.min(a, b), 3, Math.max(2, Math.abs(a - b))); }
+    } else { ctx.strokeStyle = s.hue; ctx.lineWidth = 2; ctx.beginPath(); s.series.forEach((v, k) => k ? ctx.lineTo(k / 59 * W, Y(v)) : ctx.moveTo(0, Y(v))); ctx.stroke(); }
+  } else if (s.kind === 'book') {
+    for (let r = 0; r < 10; r++) { const w = 20 + Math.random() * 100; ctx.fillStyle = r < 5 ? 'rgba(255,77,77,.6)' : 'rgba(43,213,118,.6)'; ctx.fillRect(r < 5 ? W / 2 - w : W / 2, 22 + r * 12.5, w, 9); }
+  } else if (s.kind === 'heat') {
+    for (let x = 0; x < 8; x++) for (let y = 0; y < 5; y++) { const v = Math.random(); ctx.fillStyle = v > .5 ? `rgba(43,213,118,${v - .25})` : `rgba(255,77,77,${.85 - v})`; ctx.fillRect(4 + x * 31, 22 + y * 25, 28, 22); }
+  } else {
+    for (let k = 0; k < 14; k++) { const h = 10 + Math.random() * (H - 40); ctx.fillStyle = s.hue; ctx.globalAlpha = .75; ctx.fillRect(8 + k * 17.5, H - 6 - h, 12, h); } ctx.globalAlpha = 1;
+  }
+  s.tex.needsUpdate = true;
+}
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+/* =========================================================
+   The hero screen: a real terminal, drawn live
+   ========================================================= */
+const HS = { w: 1280, h: 768 };
+const hc = document.createElement('canvas'); hc.width = HS.w; hc.height = HS.h;
+const hx = hc.getContext('2d');
+let heroTex;
+const hero = { mode: 'mc', since: 0, mc: null };
+
+function newMC() {
+  const N = 160, S = 126, mu = .08, sig = .24, dt = 1 / S, paths = [];
+  for (let p = 0; p < N; p++) { const a = new Float32Array(S + 1); a[0] = 100; for (let t = 1; t <= S; t++) a[t] = a[t - 1] * Math.exp((mu - sig * sig / 2) * dt + sig * Math.sqrt(dt) * gauss()); paths.push(a); }
+  const fin = paths.map(a => a[S]).sort((a, b) => a - b);
+  return { paths, S, N, var: fin[Math.floor(N * .01)], born: performance.now() };
+}
+
+function header(fn, title) {
+  const x = hx;
+  x.fillStyle = COL.bg; x.fillRect(0, 0, HS.w, HS.h);
+  x.fillStyle = '#0b1017'; x.fillRect(0, 0, HS.w, 54);
+  x.fillStyle = COL.amber; x.fillRect(0, 0, 250, 54);
+  x.font = `600 22px ${MONO}`; x.textBaseline = 'middle';
+  x.fillStyle = '#000'; x.fillText('LNILSSON <GO>', 20, 28);
+  x.fillStyle = COL.amber; x.fillText(fn, 276, 28);
+  x.fillStyle = COL.mute; x.font = `400 20px ${MONO}`; x.fillText(title, 276 + x.measureText(fn).width + 40, 28);
+  const t = new Date().toLocaleTimeString('en-US', { hour12: false, timeZone: 'America/New_York' });
+  x.fillStyle = COL.green; x.textAlign = 'right'; x.fillText(t + ' NY', HS.w - 22, 28); x.textAlign = 'left';
+  x.strokeStyle = '#1b2530'; x.lineWidth = 2; x.beginPath(); x.moveTo(0, 55); x.lineTo(HS.w, 55); x.stroke();
+}
+function bigLabel(txt, y, col = COL.text, size = 30, weight = 500) { hx.font = `${weight} ${size}px ${MONO}`; hx.fillStyle = col; hx.textBaseline = 'alphabetic'; hx.fillText(txt, 48, y); }
+const ease = t => 1 - Math.pow(1 - Math.min(1, Math.max(0, t)), 3);
+
+function hbars(rows, max, ticks, suffix, opts, a) {
+  const x0 = 250, x1 = 1060, top = opts.top || 250, gap = opts.gap || 84, bh = opts.bh || 50;
+  const X = v => x0 + (x1 - x0) * v / max;
+  hx.font = `400 18px ${MONO}`; hx.textAlign = 'center'; hx.textBaseline = 'top';
+  ticks.forEach(v => { hx.strokeStyle = COL.line; hx.lineWidth = 2; hx.beginPath(); hx.moveTo(X(v), top - 20); hx.lineTo(X(v), top + rows.length * gap - 10); hx.stroke(); hx.fillStyle = COL.mute; hx.fillText(v + suffix, X(v), top + rows.length * gap); });
+  rows.forEach(([name, v, col, note], i) => {
+    const y = top + i * gap, k = ease(a * 1.6 - i * .12);
+    hx.textAlign = 'right'; hx.textBaseline = 'middle'; hx.font = `500 22px ${MONO}`; hx.fillStyle = col === COL.amber || col === COL.green ? col : COL.text; hx.fillText(name, x0 - 22, y + bh / 2);
+    hx.fillStyle = col; hx.fillRect(x0, y, (X(v) - x0) * k, bh);
+    hx.textAlign = 'left'; hx.font = `500 24px ${MONO}`; hx.fillStyle = COL.text; if (k > .9) hx.fillText(v.toFixed(v < 10 ? 2 : 1) + suffix + (note ? '  ' + note : ''), X(v) + 16, y + bh / 2);
+  });
+  hx.textAlign = 'left'; hx.textBaseline = 'alphabetic';
+}
+
+function typeLines(lines, a) {
+  const chars = Math.floor(a * 90); let used = 0;
+  hx.textBaseline = 'alphabetic';
+  lines.forEach(([t, col, size], i) => {
+    const n = Math.max(0, Math.min(t.length, chars - used)); used += t.length;
+    hx.font = `${size > 30 ? 500 : 400} ${size || 28}px ${MONO}`; hx.fillStyle = col || COL.text;
+    hx.fillText(t.slice(0, n), 60, 150 + i * 62 + (size > 30 ? 10 : 0));
+    if (n < t.length && n > 0 || (i === lines.length - 1 && n === t.length)) { if ((performance.now() / 500 | 0) % 2) { const w = hx.measureText(t.slice(0, n)).width; hx.fillStyle = COL.amber; hx.fillRect(64 + w, 150 + i * 62 - 26, 14, 30); } }
+  });
+}
+
+function drawHero(now) {
+  const a = (now - hero.since) / 1100;
+  const m = hero.mode;
+  if (m === 'mc') {
+    header('MCSIM', 'MONTE CARLO · 99% VALUE AT RISK');
+    if (!hero.mc || now - hero.mc.born > 7000) hero.mc = newMC();
+    const { paths, S, N } = hero.mc, shown = Math.min(N, Math.floor((now - hero.mc.born) / 22));
+    const L = 60, R = 1010, T = 90, B = 700, lo = Math.log(55), hi = Math.log(190);
+    const X = t => L + (R - L) * t / S, Y = v => T + (B - T) * (1 - (Math.log(v) - lo) / (hi - lo));
+    hx.strokeStyle = COL.line; hx.lineWidth = 2; [60, 80, 100, 130, 170].forEach(v => { hx.beginPath(); hx.moveTo(L, Y(v)); hx.lineTo(R, Y(v)); hx.stroke(); });
+    const varLv = hero.mc.var;
+    hx.lineWidth = 1.6;
+    for (let p = 0; p < shown; p++) {
+      const arr = paths[p], f = arr[S];
+      hx.strokeStyle = f <= varLv * 1.001 ? 'rgba(255,77,77,.95)' : f < 100 ? 'rgba(255,176,0,.22)' : 'rgba(76,195,255,.2)';
+      hx.beginPath(); hx.moveTo(X(0), Y(arr[0])); for (let t = 3; t <= S; t += 3) hx.lineTo(X(t), Y(arr[t])); hx.stroke();
+    }
+    // histogram
+    const bins = 30, cnt = new Array(bins).fill(0);
+    for (let p = 0; p < shown; p++) { const b = Math.floor((Math.log(paths[p][S]) - lo) / (hi - lo) * bins); if (b >= 0 && b < bins) cnt[b]++; }
+    const mx = Math.max(1, ...cnt), bh = (B - T) / bins;
+    cnt.forEach((c, b) => { if (!c) return; const mid = Math.exp(lo + (b + .5) / bins * (hi - lo)); hx.fillStyle = mid <= varLv ? COL.red : mid < 100 ? 'rgba(255,176,0,.75)' : 'rgba(76,195,255,.65)'; hx.fillRect(R + 24, B - (b + 1) * bh + 2, 220 * c / mx, bh - 4); });
+    hx.setLineDash([10, 8]); hx.strokeStyle = COL.red; hx.lineWidth = 2.5; hx.beginPath(); hx.moveTo(L, Y(varLv)); hx.lineTo(HS.w - 20, Y(varLv)); hx.stroke(); hx.setLineDash([]);
+    hx.font = `500 22px ${MONO}`; hx.fillStyle = COL.red; hx.fillText(`VaR 99%  ${((varLv / 100 - 1) * 100).toFixed(1)}%`, L + 12, Y(varLv) - 12);
+    hx.fillStyle = COL.mute; hx.font = `400 20px ${MONO}`; hx.fillText(`PATHS ${shown}/${N}   σ 24%   μ 8%   HORIZON 6M`, L, 740);
+  } else if (m === 'var') {
+    header('VAR', 'BACKTEST · 99% 1-DAY · 2,699 DAYS');
+    bigLabel('Exception rate by model', 130, COL.text, 34);
+    bigLabel('Expected at 99%: 1.00%', 172, COL.mute, 22, 400);
+    hbars([['HIST', 1.37, 'rgba(255,176,0,.8)'], ['NORMAL', 2.56, COL.red], ['MONTE C.', 2.52, COL.red], ['GARCH', 2.37, COL.red], ['EVT-POT', 1.19, COL.green, '✓ PASSES KUPIEC']], 3, [0, 1, 2, 3], '%', { top: 240, gap: 88 }, a);
+    const X1 = 250 + 810 / 3; hx.setLineDash([8, 8]); hx.strokeStyle = COL.text; hx.lineWidth = 2; hx.beginPath(); hx.moveTo(X1, 220); hx.lineTo(X1, 680); hx.stroke(); hx.setLineDash([]);
+  } else if (m === 'ao') {
+    header('AO24', 'AUSTRALIAN OPEN 2024 · 100,000 SIMS');
+    bigLabel('Pre-tournament title odds', 130, COL.text, 34);
+    bigLabel('Model frozen Jan 1, 2024', 172, COL.mute, 22, 400);
+    hbars([['DJOKOVIC', 39.8, 'rgba(76,195,255,.6)'], ['SINNER', 16.1, COL.amber, '★ CHAMPION'], ['ALCARAZ', 12.2, 'rgba(76,195,255,.6)'], ['MEDVEDEV', 9.9, 'rgba(76,195,255,.6)'], ['FIELD', 22.0, '#26313d']], 45, [0, 15, 30, 45], '%', { top: 240, gap: 88 }, a);
+  } else if (m === 'solr') {
+    header('SOLR', 'SPACE WEATHER · 6-YEAR FORECAST TEST');
+    bigLabel('Test error vs. ARIMA (ARIMA = 100)', 130, COL.text, 34);
+    bigLabel('Lower is better · Oct 2018 – Oct 2024', 172, COL.mute, 22, 400);
+    const groups = [['SUNSPOTS', [[100, '#3a4553'], [55, COL.cyan]]], ['F10.7 FLUX', [[100, '#3a4553'], [64, COL.cyan]]], ['AP INDEX', [[100, '#3a4553'], [114, COL.cyan], [86, COL.green]]]];
+    const B = 640, T = 240, Y = v => B - (B - T) * v / 125; let x = 120, gi = 0;
+    [0, 50, 100].forEach(v => { hx.strokeStyle = v === 100 ? '#2a3542' : COL.line; hx.lineWidth = 2; hx.beginPath(); hx.moveTo(90, Y(v)); hx.lineTo(1000, Y(v)); hx.stroke(); hx.fillStyle = COL.mute; hx.font = `400 18px ${MONO}`; hx.textAlign = 'right'; hx.fillText(v, 80, Y(v) + 6); });
+    groups.forEach(([g, bars]) => { const gx = x; bars.forEach(([v, c], bi) => { const k = ease(a * 1.6 - gi * .15 - bi * .05); hx.fillStyle = c; hx.fillRect(x, Y(v * k), 70, B - Y(v * k)); hx.fillStyle = COL.text; hx.font = `500 22px ${MONO}`; hx.textAlign = 'center'; if (k > .9) hx.fillText(v, x + 35, Y(v) - 12); x += 80; }); hx.fillStyle = COL.mute; hx.font = `400 18px ${MONO}`; hx.fillText(g, (gx + x - 10) / 2, B + 34); x += 70; gi++; });
+    hx.textAlign = 'left';
+    [['ARIMA', '#3a4553'], ['VAR(4)', COL.cyan], ['DYN. REGRESSION', COL.green]].forEach(([n, c], i) => { hx.fillStyle = c; hx.fillRect(960, 250 + i * 38, 20, 20); hx.fillStyle = COL.text; hx.font = `400 19px ${MONO}`; hx.fillText(n, 992, 267 + i * 38); });
+  } else if (m === 'rent') {
+    header('RENT', 'WILMINGTON RENTALS · DAILY 07:30 ET');
+    bigLabel('Bronze → Silver → Gold, scored by Claude', 130, COL.text, 34);
+    bigLabel('50 live listings per run · 23 scored 7/10 or better', 172, COL.mute, 22, 400);
+    const nodes = [['RENTCAST', 'live API', COL.cyan], ['BRONZE', 'raw JSON', '#c07a3a'], ['SILVER', 'typed · deduped', '#9aa6b3'], ['GOLD', 'Claude 1–10', COL.amber]];
+    nodes.forEach(([n, d, c], i) => {
+      const k = ease(a * 1.8 - i * .2), x = 60 + i * 300, y = 300;
+      hx.globalAlpha = k; hx.strokeStyle = c; hx.lineWidth = 3; hx.strokeRect(x, y, 240, 130); hx.fillStyle = c; hx.fillRect(x, y, 10, 130);
+      hx.font = `600 28px ${MONO}`; hx.fillText(n, x + 32, y + 56); hx.fillStyle = COL.mute; hx.font = `400 20px ${MONO}`; hx.fillText(d, x + 32, y + 94);
+      if (i < 3) { hx.strokeStyle = '#2a3542'; hx.beginPath(); hx.moveTo(x + 248, y + 65); hx.lineTo(x + 292, y + 65); hx.stroke(); const dx = ((now / 900 + i * .3) % 1) * 44; hx.fillStyle = COL.amber; hx.beginPath(); hx.arc(x + 248 + dx, y + 65, 6, 0, 7); hx.fill(); }
+      hx.globalAlpha = 1;
+    });
+    if (a > .8) {
+      hx.font = `500 26px ${MONO}`; hx.fillStyle = COL.green; hx.fillText('▲ TOP PICK   3 bed / 3 bath   $1,749/mo   $583 each', 60, 560);
+      hx.font = `400 22px ${MONO}`; hx.fillStyle = COL.mute; hx.fillText('score ≥ 7 → dashboard      score = 9 → 8:00 AM email', 60, 620);
+    }
+  } else if (m === 'about') {
+    header('BIO', 'WHOAMI');
+    typeLines([['> whoami', COL.mute], ['Lukas Nilsson', COL.amber, 44], ['> education', COL.mute], ['MS Computer Science & Info Systems, UNCW'], ['> focus', COL.mute], ['market risk · credit risk · forecasting'], ['> status', COL.mute], ['open to risk analyst roles', COL.green]], a / 1.6);
+  } else if (m === 'contact') {
+    header('MSG', 'NEW MESSAGE');
+    typeLines([['> contact --lukas', COL.mute], ['lukas@lukas-nilsson.com', COL.amber, 44], [''], ['linkedin.com/in/lukas-nilsson'], ['github.com/LukasUNCW'], [''], ['> ready when you are', COL.green]], a / 1.4);
+  }
+  // scanline & vignette for CRT-ish depth
+  const g = hx.createRadialGradient(HS.w / 2, HS.h / 2, HS.h * .3, HS.w / 2, HS.h / 2, HS.w * .7);
+  g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.35)'); hx.fillStyle = g; hx.fillRect(0, 0, HS.w, HS.h);
+  heroTex.needsUpdate = true;
+}
+function setMode(m) { if (m === hero.mode) return; hero.mode = m; hero.since = performance.now(); if (m === 'mc') hero.mc = null; }
+
+/* =========================================================
+   Scene
+   ========================================================= */
+let renderer, scene, camera, composer, bloom, MATS;
+const SEATS = [];
+const clock = new THREE.Clock();
+const smallScreens = [];
+let ticker, clockTex, clockCtx, tvs = [];
+const SUN = new THREE.Vector3(.22, .035, -1).normalize();        // where the sun sits in the sky
+const SUNLIGHT = new THREE.Vector3(.3, .16, -1).normalize();    // slightly higher for the light, so it rakes the floor
+
+function canvasTex(w, h, draw, repeat) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); draw(x, w, h);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+  if (repeat) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(...repeat); }
+  return t;
+}
+
+function facadeTextures() {
+  // two canvases with the same window grid: the glass itself, and the few lights still on
+  const W = 256, H = 512, cols = 12, rows = 40, cw = W / cols, ch = H / rows;
+  const lit = []; for (let i = 0; i < cols * rows; i++) lit.push(rnd() < .09);
+  const tone = []; for (let i = 0; i < cols * rows; i++) tone.push(rnd());
+  const glass = canvasTex(W, H, (x) => {
+    x.fillStyle = '#4b4f63'; x.fillRect(0, 0, W, H);
+    for (let gx = 0; gx < cols; gx++) for (let gy = 0; gy < rows; gy++) {
+      const v = tone[gy * cols + gx];
+      x.fillStyle = `rgb(${88 + v * 40 | 0},${96 + v * 38 | 0},${128 + v * 40 | 0})`;
+      x.fillRect(gx * cw + 2, gy * ch + 2, cw - 4, ch - 4);
+    }
+  }, [1, 1]);
+  const lights = canvasTex(W, H, (x) => {
+    x.fillStyle = '#000'; x.fillRect(0, 0, W, H);
+    for (let gx = 0; gx < cols; gx++) for (let gy = 0; gy < rows; gy++) if (lit[gy * cols + gx]) {
+      x.fillStyle = rnd() > .3 ? '#ffd9a0' : '#e8f0ff'; x.fillRect(gx * cw + 2, gy * ch + 2, cw - 4, ch - 4);
+    }
+  }, [1, 1]);
+  return { glass, lights };
+}
+
+function tickerTexture() {
+  return canvasTex(4096, 64, (x, W) => {
+    x.fillStyle = '#020305'; x.fillRect(0, 0, W, 64);
+    const items = [['LUKAS NILSSON', '', COL.amber], ['EVT-POT HIT', '1.19% ▲', COL.green], ['SPX', '+0.42% ▲', COL.green], ['P(SINNER)', '16.1% ▲', COL.green], ['UST10Y', '−3bp ▼', COL.red], ['NORMAL VaR HIT', '2.56% ▼', COL.red], ['SUNSPOT RMSE', '−45% ▲', COL.green], ['AO24 SIMS', '100,000', COL.text], ['GARCH INDEP p', '0.70 ▲', COL.green], ['OPEN TO RISK ROLES', '', COL.amber]];
+    x.font = `600 36px ${MONO}`; x.textBaseline = 'middle'; let px = 20, i = 0;
+    while (px < W - 200) { const [k, v, col] = items[i++ % items.length]; x.fillStyle = col === COL.amber ? COL.amber : '#d7dee6'; x.fillText(k, px, 33); px += x.measureText(k).width + 14; if (v) { x.fillStyle = col; x.fillText(v, px, 33); px += x.measureText(v).width; } px += 80; }
+  });
+}
+
+const CITIES = [['NEW YORK', 'America/New_York'], ['LONDON', 'Europe/London'], ['FRANKFURT', 'Europe/Berlin'], ['TOKYO', 'Asia/Tokyo'], ['HONG KONG', 'Asia/Hong_Kong']];
+function drawClocks() {
+  const x = clockCtx, W = 1280, H = 96;
+  x.fillStyle = '#05070a'; x.fillRect(0, 0, W, H);
+  const now = new Date();
+  CITIES.forEach(([c, tz], i) => {
+    const cx = i * W / 5 + W / 10;
+    x.textAlign = 'center'; x.fillStyle = '#8b96a3'; x.font = `500 18px ${MONO}`; x.fillText(c, cx, 26);
+    x.fillStyle = i === 0 ? COL.amber : '#ff4d3d'; x.font = `600 44px ${MONO}`;
+    x.fillText(now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: tz }), cx, 72);
+  });
+  clockTex.needsUpdate = true;
+}
+
+function drawTV(tv, now) {
+  const x = tv.ctx, W = 512, H = 288;
+  x.fillStyle = '#0a0f1a'; x.fillRect(0, 0, W, H);
+  x.fillStyle = '#12213d'; x.fillRect(0, 0, W, 38);
+  x.fillStyle = '#e8edf3'; x.font = `700 20px ${MONO}`; x.textBaseline = 'middle'; x.textAlign = 'left'; x.fillText(tv.title, 14, 20);
+  x.fillStyle = '#d33'; x.fillRect(W - 70, 10, 56, 20); x.fillStyle = '#fff'; x.font = `700 13px ${MONO}`; x.fillText('LIVE', W - 60, 20);
+  tv.s.shift(); tv.s.push(tv.s[tv.s.length - 1] + gauss());
+  const mn = Math.min(...tv.s), mx = Math.max(...tv.s), Y = v => 60 + 150 * (1 - (v - mn) / (mx - mn || 1));
+  x.strokeStyle = '#1d2a3c'; for (let y = 70; y < 220; y += 30) { x.beginPath(); x.moveTo(16, y); x.lineTo(W - 16, y); x.stroke(); }
+  x.strokeStyle = tv.s[tv.s.length - 1] > tv.s[0] ? COL.green : COL.red; x.lineWidth = 3; x.beginPath(); tv.s.forEach((v, k) => k ? x.lineTo(16 + k / (tv.s.length - 1) * (W - 32), Y(v)) : x.moveTo(16, Y(v))); x.stroke();
+  x.fillStyle = '#c21d2a'; x.fillRect(0, H - 50, W, 50); x.fillStyle = '#fff'; x.font = `700 17px ${MONO}`; x.fillText(tv.head, 14, H - 25);
+  tv.tex.needsUpdate = true;
+}
+
+// Hero seat: row at z = -7, bench on the right of the centre aisle, second seat, facing the windows
+const HERO = { x: 4.4, z: -7 };
+const ROOM = { x0: -26, x1: 26, z0: -36, z1: 24, h: 4.2 };
+
+function build() {
+  scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2('#d4865e', .0019);
+
+  // ---------- sky ----------
+  const skyMat = new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false, fog: false,
+    uniforms: { sunDir: { value: SUN } },
+    vertexShader: `varying vec3 vDir; void main(){ vDir = normalize((modelMatrix * vec4(position,1.)).xyz - cameraPosition); gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position,1.); }`,
+    fragmentShader: `varying vec3 vDir; uniform vec3 sunDir;
+      void main(){ vec3 d = normalize(vDir); float h = d.y;
+        vec3 horizon = vec3(1.0,.4,.1), low = vec3(.92,.27,.2), mid = vec3(.5,.2,.42), top = vec3(.12,.14,.34);
+        vec3 c = mix(horizon, low, smoothstep(.0,.05,h)); c = mix(c, mid, smoothstep(.04,.14,h)); c = mix(c, top, smoothstep(.12,.45,h));
+        c = mix(c, vec3(.55,.36,.36), smoothstep(0.,-.15,h));
+        float s = max(dot(d, sunDir), 0.);
+        c += vec3(1.,.55,.25) * pow(s, 6.) * .55 + vec3(1.,.75,.45) * pow(s, 60.) * .8 + vec3(1.,.93,.75) * smoothstep(.9990,.9993,s) * 4.;
+        gl_FragColor = vec4(c, 1.); }`
+  });
+  scene.add(new THREE.Mesh(new THREE.SphereGeometry(900, 32, 16), skyMat));
+
+  // ---------- light ----------
+  scene.add(new THREE.HemisphereLight('#eef2fa', '#8a7a6c', .95)); scene.add(new THREE.AmbientLight('#fff1e4', .12));
+  const up = new THREE.DirectionalLight('#fff4e8', .35); up.position.set(0, -10, -4); scene.add(up);
+  const fill = new THREE.DirectionalLight('#fff3e2', .3); fill.position.set(0, 10, 10); scene.add(fill);
+  const sun = new THREE.DirectionalLight('#ffa565', small ? 1.9 : 2.4);
+  sun.target.position.set(0, 1.5, -6); sun.position.copy(sun.target.position).addScaledVector(SUNLIGHT, 90);
+  scene.add(sun, sun.target);
+  if (!small) {
+    sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+    Object.assign(sun.shadow.camera, { left: -34, right: 34, top: 14, bottom: -10, near: 40, far: 190 });
+    sun.shadow.bias = -.0004; sun.shadow.normalBias = .04;
+  }
+  
+
+  // ---------- room ----------
+  const W = ROOM.x1 - ROOM.x0, D = ROOM.z1 - ROOM.z0, cx = (ROOM.x0 + ROOM.x1) / 2, cz = (ROOM.z0 + ROOM.z1) / 2;
+  const carpet = canvasTex(512, 512, (x) => {
+    x.fillStyle = '#434957'; x.fillRect(0, 0, 512, 512);
+    for (let i = 0; i < 9000; i++) { const v = 55 + rnd() * 30 | 0; x.fillStyle = `rgba(${v},${v + 4},${v + 14},.5)`; x.fillRect(rnd() * 512, rnd() * 512, 2, 2); }
+    x.strokeStyle = 'rgba(0,0,0,.18)'; for (let i = 0; i <= 512; i += 128) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, 512); x.moveTo(0, i); x.lineTo(512, i); x.stroke(); }
+  }, [W / 2.4, D / 2.4]);
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({ map: carpet, roughness: .95 }));
+  floor.rotation.x = -Math.PI / 2; floor.position.set(cx, 0, cz); floor.receiveShadow = true; scene.add(floor);
+
+  const ceilTex = canvasTex(256, 256, (x) => { x.fillStyle = '#d9dbdf'; x.fillRect(0, 0, 256, 256); x.strokeStyle = '#a9adb4'; x.lineWidth = 2; for (let i = 0; i <= 256; i += 64) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, 256); x.moveTo(0, i); x.lineTo(256, i); x.stroke(); } }, [W / 2.4, D / 2.4]);
+  const ceil = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({ map: ceilTex, roughness: .9 }));
+  ceil.rotation.x = Math.PI / 2; ceil.position.set(cx, ROOM.h, cz); ceil.receiveShadow = true; scene.add(ceil);
+
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), one = new THREE.Vector3(1, 1, 1);
+  // recessed light panels
+  const panelsArr = [];
+  for (let x = -22; x <= 22; x += 4) for (let z = -33; z <= 21; z += 3.5) panelsArr.push([x, z]);
+  const panels = new THREE.InstancedMesh(new THREE.PlaneGeometry(1.2, .6), new THREE.MeshBasicMaterial({ color: '#d9d2c4' }), panelsArr.length);
+  q.setFromEuler(new THREE.Euler(Math.PI / 2, 0, 0));
+  panelsArr.forEach(([x, z], i) => panels.setMatrixAt(i, m4.compose(v3.set(x, ROOM.h - .01, z), q, one))); scene.add(panels);
+
+  // walls: left solid (media wall), front solid, back and right floor-to-ceiling glass
+  const wallMat = new THREE.MeshStandardMaterial({ color: '#cfccc6', roughness: .9 });
+  const left = new THREE.Mesh(new THREE.BoxGeometry(.3, ROOM.h, D), wallMat); left.position.set(ROOM.x0 - .15, ROOM.h / 2, cz); left.receiveShadow = true; scene.add(left);
+  const front = new THREE.Mesh(new THREE.BoxGeometry(W, ROOM.h, .3), wallMat); front.position.set(cx, ROOM.h / 2, ROOM.z1 + .15); scene.add(front);
+  const frameMat = new THREE.MeshStandardMaterial({ color: '#2a2f38', roughness: .5, metalness: .6 });
+  const mullArr = [];
+  for (let x = ROOM.x0; x <= ROOM.x1; x += 1.5) mullArr.push([x, ROOM.z0, 0]);
+  for (let z = ROOM.z0 + 1.5; z <= ROOM.z1; z += 1.5) mullArr.push([ROOM.x1, z, 1]);
+  const mull = new THREE.InstancedMesh(new THREE.BoxGeometry(.08, ROOM.h, .14), frameMat, mullArr.length);
+  mullArr.forEach(([x, z, r], i) => mull.setMatrixAt(i, m4.compose(v3.set(x, ROOM.h / 2, z), q.setFromEuler(new THREE.Euler(0, r * Math.PI / 2, 0)), one)));
+  mull.castShadow = true; scene.add(mull);
+  const sillB = new THREE.Mesh(new THREE.BoxGeometry(W, .35, .4), frameMat); sillB.position.set(cx, .175, ROOM.z0); scene.add(sillB);
+  const sillR = new THREE.Mesh(new THREE.BoxGeometry(.4, .35, D), frameMat); sillR.position.set(ROOM.x1, .175, cz); scene.add(sillR);
+  const headB = new THREE.Mesh(new THREE.BoxGeometry(W, .3, .4), frameMat); headB.position.set(cx, ROOM.h - .15, ROOM.z0); scene.add(headB);
+  const headR = new THREE.Mesh(new THREE.BoxGeometry(.4, .3, D), frameMat); headR.position.set(ROOM.x1, ROOM.h - .15, cz); scene.add(headR);
+  // faint glass sheen
+  const glassMat = new THREE.MeshBasicMaterial({ color: '#ffb07a', transparent: true, opacity: .03, depthWrite: false });
+  const gB = new THREE.Mesh(new THREE.PlaneGeometry(W, ROOM.h), glassMat); gB.position.set(cx, ROOM.h / 2, ROOM.z0 + .02); scene.add(gB);
+
+  // columns
+  const colMat = new THREE.MeshStandardMaterial({ color: '#d6d3cd', roughness: .8 });
+  const colArr = []; for (const x of [-12, 12]) for (const z of [-24.5, -10.5, 3.5, 17.5]) colArr.push([x, z]);
+  const cols = new THREE.InstancedMesh(new THREE.BoxGeometry(.8, ROOM.h, .8), colMat, colArr.length);
+  colArr.forEach(([x, z], i) => cols.setMatrixAt(i, m4.makeTranslation(x, ROOM.h / 2, z))); cols.castShadow = cols.receiveShadow = true; scene.add(cols);
+
+  // hanging ticker + world clocks across the room
+  ticker = tickerTexture(); ticker.wrapS = THREE.RepeatWrapping; ticker.repeat.x = 1.4;
+  const cc = document.createElement('canvas'); cc.width = 1280; cc.height = 96; clockCtx = cc.getContext('2d');
+  clockTex = new THREE.CanvasTexture(cc); clockTex.colorSpace = THREE.SRGBColorSpace; drawClocks();
+  const hangZ = -17.5, dark = new THREE.MeshStandardMaterial({ color: '#0b0d11', roughness: .5 });
+  [[-12.9, 15.2], [12.9, 15.2]].forEach(([x, w]) => {
+    const box = new THREE.Mesh(new THREE.BoxGeometry(w + .1, .42, .12), dark); box.position.set(x, 3.55, hangZ); scene.add(box);
+    [1, -1].forEach(s => { const p = new THREE.Mesh(new THREE.PlaneGeometry(w, .32), new THREE.MeshBasicMaterial({ map: ticker, toneMapped: false })); p.position.set(x, 3.55, hangZ + s * .065); if (s < 0) p.rotation.y = Math.PI; scene.add(p); });
+  });
+  const cbox = new THREE.Mesh(new THREE.BoxGeometry(10.2, .9, .12), dark); cbox.position.set(0, 3.45, hangZ); scene.add(cbox);
+  [1, -1].forEach(s => { const p = new THREE.Mesh(new THREE.PlaneGeometry(10, .75), new THREE.MeshBasicMaterial({ map: clockTex, toneMapped: false })); p.position.set(0, 3.45, hangZ + s * .065); if (s < 0) p.rotation.y = Math.PI; scene.add(p); });
+  for (const x of [-20, -5, 5, 20]) { const rod = new THREE.Mesh(new THREE.CylinderGeometry(.015, .015, .5), dark); rod.position.set(x, 3.95, hangZ); scene.add(rod); }
+
+  // TVs on the left wall
+  [['MARKETS', 'FED HOLDS RATES; TREASURIES RALLY'], ['GLOBAL', 'EUROPE CLOSES HIGHER, BANKS LEAD'], ['ENERGY', 'CRUDE SLIPS ON INVENTORY BUILD'], ['RATES', '10Y YIELD DIPS AHEAD OF CPI']].forEach(([title, head], i) => {
+    const c = document.createElement('canvas'); c.width = 512; c.height = 288;
+    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+    const s = [0]; for (let k = 1; k < 80; k++) s.push(s[k - 1] + gauss());
+    const tv = { ctx: c.getContext('2d'), tex, title, head, s }; tvs.push(tv); drawTV(tv);
+    const z = -26 + i * 9, g = new THREE.Group(); g.position.set(ROOM.x0 + .05, 2.55, z); g.rotation.y = Math.PI / 2; scene.add(g);
+    const b = new THREE.Mesh(new THREE.BoxGeometry(2.5, 1.45, .08), dark); b.position.z = .04; g.add(b);
+    const sc = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.35), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false })); sc.position.z = .085; g.add(sc);
+  });
+
+  // ---------- skyline at sunset ----------
+  const { glass, lights } = facadeTextures();
+  glass.wrapS = glass.wrapT = lights.wrapS = lights.wrapT = THREE.RepeatWrapping;
+  const geos = [], STREET = -145;
+  const addBox = (x, z, w, d, h, y0 = STREET) => {
+    const g = new THREE.BoxGeometry(w, h, d); const uv = g.attributes.uv;
+    for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * w / 14, uv.getY(i) * h / 32);
+    g.translate(x, y0 + h / 2, z); geos.push(g); return y0 + h;
+  };
+  const sunAz = Math.atan2(SUN.x, -SUN.z);
+  const place = (x, z) => {
+    const tall = rnd() < .07 && z < -280;
+    const w = tall ? rr(12, 22) : rr(14, 34), d = tall ? rr(12, 22) : rr(14, 34);
+    let h = tall ? rr(170, 330) : rr(45, 135);
+    if (Math.abs(Math.atan2(x, -z) - sunAz) < .07) h = Math.min(h, 250);
+    if (rnd() < .25) { const top = addBox(x, z, w, d, h * .82); addBox(x, z, w * .7, d * .7, h * .18, top); }  // setback
+    else addBox(x, z, w, d, h);
+  };
+  const N = small ? 140 : 230;
+  for (let i = 0; i < N; i++) {
+    let x, z;
+    if (i % 3 === 2) { x = rr(110, 560); z = rr(-420, 160); } else { x = rr(-460, 460); z = rr(-120, -600); }
+    place(x, z);
+  }
+  // landmarks: a stepped art-deco tower with a mast, and a tapering glass obelisk
+  let t = addBox(-95, -330, 44, 44, 215); t = addBox(-95, -330, 32, 32, 38, t); t = addBox(-95, -330, 20, 20, 26, t); t = addBox(-95, -330, 11, 11, 16, t);
+  const mast = new THREE.CylinderGeometry(1.2, 3.8, 34, 8); mast.translate(-95, t + 17, -330); geos.push(mast);
+  const obelisk = new THREE.CylinderGeometry(15, 40, 330, 4, 1); obelisk.rotateY(Math.PI / 4);
+  { const uv = obelisk.attributes.uv; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * 6, uv.getY(i) * 10); }
+  obelisk.translate(150, STREET + 165, -470); geos.push(obelisk);
+  const spire = new THREE.CylinderGeometry(.6, 1.6, 70, 6); spire.translate(150, STREET + 330 + 35, -470); geos.push(spire);
+  const cityMat = new THREE.MeshStandardMaterial({ map: glass, emissive: '#ffffff', emissiveMap: lights, emissiveIntensity: .75, roughness: .45, metalness: .35, color: '#4d4d63' });
+  scene.add(new THREE.Mesh(mergeGeometries(geos), cityMat));
+  // haze bank low on the horizon
+  const haze = new THREE.Mesh(new THREE.PlaneGeometry(2400, 120), new THREE.MeshBasicMaterial({ color: '#f0a070', transparent: true, opacity: .35, depthWrite: false, fog: false }));
+  haze.position.set(0, -60, -700); scene.add(haze);
+
+  // ---------- trading benches ----------
+  smallScreens.push(...makeSmallScreens(14));
+  const rows = small ? [-21, -14, -7, 0, 7] : [-28, -21, -14, -7, 0, 7, 14];
+  const benches = [[-21.2, -2], [2, 21.2]], PITCH = 1.6;
+  const deskMat = new THREE.MeshStandardMaterial({ color: '#c8c3b9', roughness: .6, envMapIntensity: .15 });
+  const spineMat = new THREE.MeshStandardMaterial({ color: '#2c3036', roughness: .45, metalness: .5 });
+  const bezelMat = new THREE.MeshPhysicalMaterial({ color: '#0a0b0d', roughness: .28, metalness: .2, clearcoat: .7, clearcoatRoughness: .2 });
+  const blackMat = new THREE.MeshStandardMaterial({ color: '#15171a', roughness: .5 });
+  const fabricMat = new THREE.MeshStandardMaterial({ color: '#1b1e24', roughness: .95 });
+  const metalMat = new THREE.MeshStandardMaterial({ color: '#9aa0a8', roughness: .28, metalness: .95 });
+  MATS = { deskMat, spineMat, bezelMat, blackMat, fabricMat, metalMat };
+
+  const tops = [], spines = [], legs = [], poles = [], frames = [], screensByTex = smallScreens.map(() => []), kbs = [], mice = [], turrets = [], chairs = [];
+  SEATS.length = 0;
+  // monitor layout per seat, seat faces -z; monitors sit on the spine in front
+  const MON = [[-.63, 1.07, .22], [0, 1.07, 0], [.63, 1.07, -.22], [-.32, 1.49, .1], [.32, 1.49, -.1]];
+  for (const zc of rows) for (const [bx0, bx1] of benches) {
+    const L = bx1 - bx0, mx = (bx0 + bx1) / 2, nSeats = Math.round(L / PITCH);
+    tops.push(new THREE.Matrix4().compose(v3.set(mx, .74, zc), q.identity(), new THREE.Vector3(L, 1, 1)));
+    spines.push(new THREE.Matrix4().compose(v3.set(mx, .42, zc), q.identity(), new THREE.Vector3(L, 1, 1)));
+    for (let k = 0; k <= nSeats; k += 3) legs.push(new THREE.Matrix4().makeTranslation(bx0 + .05 + k * PITCH * (L - .1) / L, .36, zc));
+    for (let i = 0; i < nSeats; i++) {
+      const sx = bx0 + PITCH / 2 + i * PITCH;
+      poles.push(new THREE.Matrix4().makeTranslation(sx, 1.18, zc));
+      for (const side of [1, -1]) {
+        const isHero = side === 1 && zc === HERO.z && Math.abs(sx - HERO.x) < .01;
+        const rotY = side === 1 ? 0 : Math.PI, sq = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, rotY, 0));
+        if (isHero) continue;
+        const monZ = zc + side * .2;
+        MON.forEach(([dx, y, ry], k) => {
+          const mq = new THREE.Quaternion().setFromEuler(new THREE.Euler(k > 2 ? -.07 : 0, rotY + ry, 0));
+          const p = new THREE.Vector3(sx + dx * side, y, monZ);
+          frames.push(new THREE.Matrix4().compose(p, mq, one));
+          const sp = p.clone().add(new THREE.Vector3(0, 0, .016).applyQuaternion(mq));
+          screensByTex[Math.floor(rnd() * smallScreens.length)].push(new THREE.Matrix4().compose(sp, mq, one));
+        });
+        kbs.push(new THREE.Matrix4().compose(v3.set(sx - .05 * side, .77, zc + side * .6), sq, one));
+        mice.push(new THREE.Matrix4().compose(v3.set(sx + .3 * side, .77, zc + side * .62), sq, one));
+        turrets.push(new THREE.Matrix4().compose(v3.set(sx + .58 * side, .8, zc + side * .5), new THREE.Quaternion().setFromEuler(new THREE.Euler(side * -.4, rotY, 0)), one));
+        const occupied = rnd() < .66, jitter = rr(-.08, .08), sz = zc + side * 1.15;
+        chairs.push(new THREE.Matrix4().compose(v3.set(sx + jitter, 0, sz + (occupied ? 0 : side * rr(.1, .4))), new THREE.Quaternion().setFromEuler(new THREE.Euler(0, rotY + (occupied ? rr(-.06, .06) : rr(-.6, .6)), 0)), one));
+        if (occupied) SEATS.push({ x: sx + jitter, z: sz, ry: rotY + rr(-.05, .05) });
+      }
+    }
+  }
+  const inst = (geo, mat, arr, shadow = true) => { const m = new THREE.InstancedMesh(geo, mat, arr.length); arr.forEach((a, i) => m.setMatrixAt(i, a)); m.castShadow = shadow; m.receiveShadow = true; m.computeBoundingSphere(); scene.add(m); return m; };
+  inst(new RoundedBoxGeometry(1, .04, 1.9, 2, .012), deskMat, tops);
+  inst(new THREE.BoxGeometry(1, .64, .05), spineMat, spines);
+  inst(new THREE.BoxGeometry(.05, .72, 1.75), spineMat, legs);
+  inst(new THREE.CylinderGeometry(.022, .022, .86, 10), metalMat, poles);
+  const bezelGeo = new RoundedBoxGeometry(.64, .39, .03, 2, .008);
+  inst(bezelGeo, bezelMat, frames);
+  const scrGeo = new THREE.PlaneGeometry(.605, .355);
+  smallScreens.forEach((s, i) => { if (screensByTex[i].length) inst(scrGeo, new THREE.MeshBasicMaterial({ map: s.tex, toneMapped: false }), screensByTex[i], false); });
+  const kbGeo = new RoundedBoxGeometry(.44, .022, .14, 2, .006), mouseGeo = new RoundedBoxGeometry(.06, .028, .1, 2, .012), turretGeo = new RoundedBoxGeometry(.34, .06, .22, 2, .01);
+  inst(kbGeo, blackMat, kbs, false); inst(mouseGeo, blackMat, mice, false); inst(turretGeo, blackMat, turrets, false);
+
+  // office chair: fabric seat + back, black shell, chrome gas lift, five-star base with casters
+  const fab = [
+    new RoundedBoxGeometry(.5, .08, .48, 3, .035).translate(0, .47, -.01),
+    new RoundedBoxGeometry(.46, .58, .07, 3, .03).rotateX(-.1).translate(0, .88, .27),
+  ];
+  const hard = [
+    new THREE.BoxGeometry(.06, .34, .03).translate(0, .62, .3),
+    new RoundedBoxGeometry(.05, .035, .26, 2, .012).translate(-.28, .66, .02), new RoundedBoxGeometry(.05, .035, .26, 2, .012).translate(.28, .66, .02),
+    new THREE.CylinderGeometry(.013, .013, .2, 8).translate(-.28, .55, .06), new THREE.CylinderGeometry(.013, .013, .2, 8).translate(.28, .55, .06),
+  ];
+  const chrome = [new THREE.CylinderGeometry(.024, .03, .34, 12).translate(0, .27, 0)];
+  for (let k = 0; k < 5; k++) {
+    const a = k / 5 * Math.PI * 2;
+    hard.push(new THREE.BoxGeometry(.3, .03, .045).translate(.15, .08, 0).rotateY(a));
+    hard.push(new THREE.SphereGeometry(.028, 8, 6).translate(Math.cos(a) * .3, .03, -Math.sin(a) * .3));
+  }
+  const toNI = gs => gs.map(g => g.index ? g.toNonIndexed() : g).map(g => { g.deleteAttribute('uv'); return g; });
+  const chairGeo = mergeGeometries([mergeGeometries(toNI(fab)), mergeGeometries(toNI(hard)), mergeGeometries(toNI(chrome))], true);
+  const chairMats = [fabricMat, blackMat, metalMat];
+  inst(chairGeo, chairMats, chairs);
+
+  // ---------- hero seat ----------
+  const H = new THREE.Group(); H.position.set(HERO.x, 0, HERO.z); scene.add(H);
+  heroTex = new THREE.CanvasTexture(hc); heroTex.colorSpace = THREE.SRGBColorSpace; heroTex.anisotropy = 8;
+  const mainW = .98, mainH = mainW * HS.h / HS.w;
+  const mf = new THREE.Mesh(new RoundedBoxGeometry(mainW + .035, mainH + .035, .035, 2, .01), bezelMat); mf.position.set(0, 1.13, .2); mf.castShadow = true; H.add(mf);
+  const ms = new THREE.Mesh(new THREE.PlaneGeometry(mainW, mainH), new THREE.MeshBasicMaterial({ map: heroTex, toneMapped: false })); ms.position.set(0, 1.13, .219); H.add(ms);
+  [[-.82, 1.07, .32, 0], [.82, 1.07, -.32, 1], [-.33, 1.58, .08, 2], [.33, 1.58, -.08, 3]].forEach(([dx, y, ry, i]) => {
+    const g = new THREE.Group(); g.position.set(dx, y, .2 + (i < 2 ? .06 : -.02)); g.rotation.set(i > 1 ? -.07 : 0, ry, 0); H.add(g);
+    g.add(new THREE.Mesh(bezelGeo, bezelMat));
+    const s = new THREE.Mesh(scrGeo, new THREE.MeshBasicMaterial({ map: smallScreens[[0, 2, 3, 8][i]].tex, toneMapped: false })); s.position.z = .016; g.add(s);
+  });
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(.022, .022, .86, 10), metalMat); pole.position.set(0, 1.18, 0); H.add(pole);
+  const kb = new THREE.Mesh(kbGeo, blackMat); kb.position.set(-.05, .77, .64); H.add(kb);
+  const mouse = new THREE.Mesh(mouseGeo, blackMat); mouse.position.set(.32, .77, .66); H.add(mouse);
+  const tur = new THREE.Mesh(turretGeo, blackMat); tur.position.set(.6, .8, .5); tur.rotation.x = -.4; H.add(tur);
+  const mug = new THREE.Mesh(new THREE.CylinderGeometry(.045, .04, .11, 20), new THREE.MeshPhysicalMaterial({ color: '#f2efe8', roughness: .2, clearcoat: 1 })); mug.position.set(-.62, .815, .55); mug.castShadow = true; H.add(mug);
+  const note = new THREE.Mesh(new THREE.BoxGeometry(.21, .008, .28), new THREE.MeshStandardMaterial({ color: '#f7f5ee', roughness: .9 })); note.position.set(-.42, .764, .72); note.rotation.y = .2; H.add(note);
+  const pen = new THREE.Mesh(new THREE.CylinderGeometry(.005, .005, .14, 8), blackMat); pen.rotation.set(Math.PI / 2, 0, .6); pen.position.set(-.4, .772, .7); H.add(pen);
+  const hc2 = new THREE.Mesh(chairGeo, chairMats); hc2.position.set(0, 0, 1.15); hc2.castShadow = true; H.add(hc2);
+}
+
+/* =========================================================
+   People: Microsoft Rocketbox avatars (MIT), seated at desks
+   ========================================================= */
+const AV = [['Business_Male_06', 'm'], ['Business_Male_07', 'm'], ['Business_Male_02', 'm'], ['Business_Male_03', 'm'], ['Business_Male_05', 'm'], ['Business_Female_01', 'f'], ['Business_Female_04', 'f']];
+const mixers = [];
+
+async function loadPeople(manager) {
+  const fbx = new FBXLoader(manager), tl = new THREE.TextureLoader(manager);
+  const tex = f => { const t = tl.load(f); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t; };
+  const skinMat = name => {
+    if (name.endsWith('_opacity')) return new THREE.MeshStandardMaterial({ map: tex(`assets/people/${name}_color.png`), alphaTest: .45, side: THREE.DoubleSide, roughness: .85, envMapIntensity: .3 });
+    return new THREE.MeshStandardMaterial({ map: tex(`assets/people/${name}_color.jpg`), roughness: name.endsWith('_head') ? .55 : .8, envMapIntensity: .3 });
+  };
+  const clips = {};
+  await Promise.all(['m', 'f'].map(async g => { clips[g] = THREE.AnimationClip.parse(await (await fetch(`assets/anim/${g}_sit_table_breathe_01.json`)).json()); }));
+  const types = await Promise.all(AV.map(async ([name, g]) => {
+    const root = await fbx.loadAsync(`assets/people/${name}.fbx`);
+    root.scale.setScalar(.01);
+    let mesh; root.traverse(o => { if (o.isSkinnedMesh) mesh = o; });
+    if (mesh.geometry.attributes.color) mesh.geometry.deleteAttribute('color');
+    mesh.material = [].concat(mesh.material).map(m => skinMat(m.name));
+    mesh.castShadow = true; mesh.frustumCulled = false;
+    return { name, root, mesh, clip: clips[g] };
+  }));
+
+  // bake a frozen seated pose into plain geometry for the far crowd
+  const bake = (T, time) => {
+    const mixer = new THREE.AnimationMixer(T.root); mixer.clipAction(T.clip).play(); mixer.setTime(time);
+    T.root.updateMatrixWorld(true);
+    const src = T.mesh.geometry, pos = src.attributes.position, n = pos.count, out = new Float32Array(n * 3), v = new THREE.Vector3();
+    for (let i = 0; i < n; i++) { v.fromBufferAttribute(pos, i); T.mesh.applyBoneTransform(i, v); v.applyMatrix4(T.mesh.matrixWorld); out[i * 3] = v.x; out[i * 3 + 1] = v.y; out[i * 3 + 2] = v.z; }
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(out, 3)); g.setAttribute('uv', src.attributes.uv);
+    if (src.index) g.setIndex(src.index); src.groups.forEach(gr => g.addGroup(gr.start, gr.count, gr.materialIndex)); g.computeVertexNormals();
+    mixer.stopAllAction(); mixer.uncacheRoot(T.root);
+    return g;
+  };
+
+  // near the camera's final approach: live, breathing people; everyone else: frozen poses
+  const near = small ? 8 : 22;
+  const byDist = SEATS.map(s => ({ s, d: Math.hypot(s.x - HERO.x, (s.z - HERO.z) * 1.3) })).sort((a, b) => a.d - b.d);
+  const live = byDist.slice(0, near).map(o => o.s), frozen = byDist.slice(near).map(o => o.s);
+
+  const place = (obj, s) => { obj.position.set(s.x, 0, s.z); obj.rotation.y = s.ry + Math.PI; };  // avatars face +z by default
+  live.forEach(s => {
+    const T = types[1 + Math.floor(rnd() * (types.length - 1))];
+    const c = SkeletonUtils.clone(T.root); place(c, s);
+    c.traverse(o => { if (o.isMesh) { o.castShadow = true; o.frustumCulled = false; } });
+    scene.add(c);
+    const mx = new THREE.AnimationMixer(c), a = mx.clipAction(T.clip); a.play(); a.time = rnd() * T.clip.duration; a.timeScale = rr(.85, 1.1);
+    mixers.push(mx);
+  });
+  // the trader we sit behind
+  const heroT = types[0], hero = SkeletonUtils.clone(heroT.root);
+  place(hero, { x: HERO.x, z: HERO.z + 1.15, ry: 0 });
+  hero.traverse(o => { if (o.isMesh) { o.castShadow = true; o.frustumCulled = false; } });
+  scene.add(hero);
+  const hm = new THREE.AnimationMixer(hero); hm.clipAction(heroT.clip).play(); mixers.push(hm);
+
+  // frozen crowd: two poses per avatar, instanced
+  const groups = new Map();
+  frozen.forEach(s => { const k = Math.floor(rnd() * types.length) * 2 + (rnd() < .5 ? 0 : 1); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(s); });
+  const m4 = new THREE.Matrix4(), qq = new THREE.Quaternion(), vv = new THREE.Vector3(), one = new THREE.Vector3(1, 1, 1);
+  for (const [k, list] of groups) {
+    const T = types[k >> 1], g = bake(T, (k & 1 ? .55 : .15) * T.clip.duration);
+    const im = new THREE.InstancedMesh(g, T.mesh.material, list.length);
+    list.forEach((s, i) => im.setMatrixAt(i, m4.compose(vv.set(s.x, 0, s.z), qq.setFromEuler(new THREE.Euler(0, s.ry + Math.PI, 0)), one)));
+    im.castShadow = !small; im.computeBoundingSphere(); scene.add(im);
+  }
+}
+
+async function loadEnv(manager) {
+  const hdr = await new RGBELoader(manager).loadAsync('assets/env/venice_sunset_1k.hdr');
+  const pm = new THREE.PMREMGenerator(renderer); const env = pm.fromEquirectangular(hdr).texture; hdr.dispose(); pm.dispose();
+  scene.environment = env;
+  scene.traverse(o => { if (o.material) [].concat(o.material).forEach(m => { if (m.isMeshStandardMaterial && m.envMapIntensity === 1) m.envMapIntensity = m === MATS.bezelMat ? .9 : .35; }); });
+}
+
+/* =========================================================
+   Camera path: long view down the floor → over the shoulder
+   ========================================================= */
+const KEY = [
+  small ? { p: [0, 2.3, 21.5], l: [0, -2.2, -30] } : { p: [0, 2.9, 21.5], l: [0, 2.0, -36] },
+  { p: [-5, 3.0, 8.5],                 l: [3, 1.5, -22] },
+  { p: [-.6, 2.4, -1.4],               l: [HERO.x, 1.15, -8.5] },
+  { p: [HERO.x + 1.5, 1.85, HERO.z + 3.4], l: [HERO.x, 1.15, HERO.z + .2] },
+  small ? { p: [HERO.x + .75, 1.85, HERO.z + 3.1], l: [HERO.x - .05, 1.1, HERO.z + .2] }
+        : { p: [HERO.x + .62, 1.46, HERO.z + 1.9], l: [HERO.x - .05, 1.12, HERO.z + .2] },
+];
+let posCurve, lookCurve;
+const smooth = t => t * t * (3 - 2 * t);
+const SNAP = location.hash === '#snap';
+
+let progress = 0, target = 0, shift = 0, mouseX = 0, mouseY = 0;
+
+function readScroll() {
+  const intro = $('#intro'), max = intro.offsetHeight - innerHeight;
+  target = Math.min(1, Math.max(0, scrollY / max));
+  document.querySelectorAll('.beat').forEach(b => {
+    const a = +b.dataset.a, e = +b.dataset.b, f = .045;
+    let o = 0; if (target >= a && target <= e) o = Math.min(1, (target - a) / f, (e - target) / f);
+    if (a === 0) o = Math.min(1, (e - target) / f);
+    b.style.opacity = o; b.style.transform = `translateY(${(1 - o) * 18}px)`;
+  });
+  const c = $('#content').getBoundingClientRect().top;
+  document.documentElement.style.setProperty('--shade', Math.min(1, Math.max(0, 1 - c / innerHeight)).toFixed(3));
+}
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  const dt = Math.min(clock.getDelta(), .1);
+  if (document.hidden) return;
+  if (!reduce) mixers.forEach(m => m.update(dt));
+  progress += (target - progress) * (reduce || SNAP ? 1 : .075);
+  const t = smooth(progress);
+  const p = posCurve.getPoint(t), l = lookCurve.getPoint(t);
+  const par = reduce ? 0 : (1 - t * .9);
+  camera.position.set(p.x + mouseX * .5 * par, p.y - mouseY * .25 * par, p.z);
+  if (!reduce && t > .95) { camera.position.x += Math.sin(now / 2600) * .008; camera.position.y += Math.sin(now / 3100) * .005; }
+  camera.lookAt(l);
+  camera.fov = 50 - t * 12; camera.updateProjectionMatrix();
+
+  const wide = innerWidth > 860, want = wide ? Math.max(0, (t - .82) / .18) * .26 : 0;
+  shift += (want - shift) * (SNAP ? 1 : .08);
+  if (shift > .001) camera.setViewOffset(innerWidth, innerHeight, -shift * innerWidth, 0, innerWidth, innerHeight); else camera.clearViewOffset();
+
+  if (!frame.i) frame.i = 0;
+  if (!reduce) { tickSmall(smallScreens[frame.i++ % smallScreens.length]); ticker.offset.x = (now / 70000) % 1; }
+  if (!frame.last || now - frame.last > 33) { drawHero(now); frame.last = now; }
+  if (!frame.sec || now - frame.sec > 1000) { drawClocks(); tvs.forEach(tv => drawTV(tv)); frame.sec = now; }
+  composer.render();
+}
+
+/* =========================================================
+   Boot
+   ========================================================= */
+function start() {
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas: $('#gl'), antialias: !small, powerPreference: 'high-performance' });
+    if (!renderer.getContext()) throw new Error('no gl');
+  } catch (e) { document.body.classList.add('nogl', 'ready'); return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.5 : 1.75));
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .82;
+  renderer.shadowMap.enabled = !small; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .05, 2000);
+  build();
+  posCurve = new THREE.CatmullRomCurve3(KEY.map(k => new THREE.Vector3(...k.p)), false, 'centripetal');
+  lookCurve = new THREE.CatmullRomCurve3(KEY.map(k => new THREE.Vector3(...k.l)), false, 'centripetal');
+  composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  if (!small) { const ao = new GTAOPass(scene, camera, innerWidth, innerHeight); ao.updateGtaoMaterial({ radius: .45, distanceExponent: 1.6, thickness: 1.2, scale: 1.1, samples: 12 }); ao.blendIntensity = .85; composer.addPass(ao); }
+  bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth / 2, innerHeight / 2), .22, .3, 1.6);
+  composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+  addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); readScroll(); });
+  addEventListener('pointermove', e => { mouseX = e.clientX / innerWidth - .5; mouseY = e.clientY / innerHeight - .5; });
+  readScroll(); progress = target;
+  smallScreens.forEach(tickSmall);
+  requestAnimationFrame(frame);
+  const mgr = new THREE.LoadingManager(), label = document.querySelector('#loader span');
+  mgr.onProgress = (u, l, t) => { label.textContent = 'Opening the floor ' + Math.round(l / t * 100) + '%'; };
+  Promise.allSettled([loadEnv(mgr), loadPeople(mgr)]).then(r => { r.forEach(x => x.status === 'rejected' && console.warn(x.reason)); requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add('ready'))); });
+}
+
+addEventListener('scroll', readScroll, { passive: true });
+
+// which piece of work is on screen
+const works = [...document.querySelectorAll('.work')];
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { works.forEach(w => w.classList.toggle('on', w === e.target)); setMode(e.target.dataset.mode); } });
+}, { rootMargin: '-45% 0px -45% 0px' });
+works.forEach(w => io.observe(w));
+new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { setMode('mc'); works.forEach(w => w.classList.remove('on')); } }), { rootMargin: '0px 0px -60% 0px' }).observe($('#intro'));
+
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(start);
+setTimeout(() => document.body.classList.add('ready'), 25000);
 </script>
-
 </body>
 </html>
