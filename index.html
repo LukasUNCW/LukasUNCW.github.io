@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lukas Nilsson · Risk Analytics</title>
-<meta name="description" content="Lukas Nilsson builds quantitative risk tools. Walk the trading floor.">
+<title>Lukas Nilsson · Developer</title>
+<meta name="description" content="Lukas Nilsson: developer in AI and integration at Atlantic Packaging, building quant and data projects on the side.">
 <meta name="theme-color" content="#05060a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,6 +82,13 @@
   .go { display: inline-flex; gap: 10px; align-items: center; font-size: 14px; font-weight: 500; text-decoration: none; color: var(--text); padding-bottom: 3px; border-bottom: 1px solid var(--amber); width: fit-content; transition: gap .2s, color .2s; }
   .go:hover { gap: 16px; color: var(--amber); }
 
+  .job .role-line { font-family: var(--mono); font-size: 13px; color: var(--amber); margin: 14px 0 6px; letter-spacing: .02em; }
+  .job p { color: var(--soft); font-size: 1.05rem; margin-top: 14px; max-width: 46ch; }
+  .job .stack { margin-top: 20px; }
+  .aside-head { font-family: var(--mono); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--dim); margin: 4vh 0 0; }
+  .work.mini { min-height: 48vh; padding: 3vh 0; }
+  .work.mini h3 { font-size: clamp(1.4rem, 2.2vw, 1.8rem); margin-bottom: 8px; }
+  .work.mini p { font-size: .95rem; margin-bottom: 14px; }
   .about { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
   .about p { color: var(--soft); font-size: 1.08rem; margin-top: 20px; max-width: 46ch; }
   .about p strong { color: var(--text); font-weight: 500; }
@@ -107,6 +114,7 @@
     .col { width: auto; margin: 0 24px; }
     #content::before { background: linear-gradient(180deg, rgba(5,6,10,.55), rgba(5,6,10,.9) 45%, rgba(5,6,10,.9)); }
     .work { min-height: 100vh; justify-content: flex-end; padding-bottom: 12vh; }
+    .work.mini { min-height: 72vh; }
     .work .body-wrap { background: rgba(5,6,10,.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 22px; margin: 0 -22px; border: 1px solid var(--line); }
     .stat b { font-size: 2.6rem; }
     footer { padding: 24px; }
@@ -130,24 +138,24 @@
 
 <header class="top">
   <a class="mark" href="#top">L<i>.</i>N</a>
-  <nav><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+  <nav><a href="#job">Work</a><a href="#work">Projects</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
 </header>
 
 <section id="intro">
   <div class="beats" id="top">
     <div class="beat center" data-a="0" data-b=".15">
-      <div class="kicker">Manhattan · 38th floor · golden hour</div>
+      <div class="kicker">Manhattan · golden hour</div>
       <h1>Lukas<br>Nilsson<em>.</em></h1>
-      <div class="sub">Risk analytics &amp; quantitative development</div>
+      <div class="sub">Developer · AI &amp; integration · quant on the side</div>
       <div class="cue">Scroll to walk the floor</div>
     </div>
     <div class="beat" data-a=".22" data-b=".44">
-      <h2>Every screen on this floor is asking the same question:</h2>
-      <h2 style="margin-top:10px"><em>how much could we lose?</em></h2>
+      <h2>I don't work on a floor like this.</h2>
+      <h2 style="margin-top:10px"><em>I just can't stop thinking about the tech behind it.</em></h2>
     </div>
     <div class="beat" data-a=".52" data-b=".74" style="align-items:flex-end;text-align:right">
-      <h2>I build the tools that answer it.</h2>
-      <p class="body">I'm an MSCSIS grad from UNC Wilmington. I take risk theory, turn it into working models, then check them against what actually happened.</p>
+      <h2>By day, I build AI and integrations.</h2>
+      <p class="body">At night I build models: quant research, systematic trading, and whatever rabbit hole comes next.</p>
     </div>
     <div class="beat low center" data-a=".86" data-b="1.02">
       <div class="kicker">Pull up a chair</div>
@@ -158,12 +166,23 @@
 
 <main id="content">
   <div class="col">
-    <div class="chapter" id="work">On my screen</div>
-    <div class="chapter-title">Four models, <em>all backtested.</em></div>
+    <section class="work job" id="job" data-mode="job">
+      <div class="body-wrap">
+        <div class="chapter" style="padding-top:0">Day job</div>
+        <div class="chapter-title">Atlantic <em>Packaging</em></div>
+        <div class="role-line">Business Application Developer, AI &amp; Integration · since mid-2026</div>
+        <p>Straight out of my master's, I joined Atlantic Packaging's development team. I work on AI tools and on the integrations that connect the company's business systems, so data and work move between them without anyone copying it by hand.</p>
+        <p>Four months in, it's where I'm learning what production software actually takes: real users, real data, and systems that can't go down.</p>
+        <div class="stack">AI · integrations · business applications</div>
+      </div>
+    </section>
+
+    <div class="chapter" id="work">After hours</div>
+    <div class="chapter-title">Things I've built <em>for fun.</em></div>
 
     <article class="work" data-mode="var">
       <div class="body-wrap">
-        <div class="idx"><b>01</b>Market risk</div>
+        <div class="idx"><b>01</b>Quant · market risk</div>
         <h3>The VaR engine that put five models on trial</h3>
         <p>Five Value-at-Risk models forecast out-of-sample every trading day for ten years on a stock/bond/gold portfolio, then judged with the same backtests banks use to validate their own risk engines.</p>
         <div class="stat"><b>1.19%</b><span>exception rate for Extreme Value Theory, the only model to pass Kupiec. The Normal-based models breached 2.5× too often.</span></div>
@@ -172,36 +191,32 @@
       </div>
     </article>
 
-    <article class="work" data-mode="ao">
+    <div class="aside-head">Also on my screen</div>
+
+    <article class="work mini" data-mode="ao">
       <div class="body-wrap">
-        <div class="idx"><b>02</b>Simulation</div>
+        <div class="idx"><b>02</b>Tennis</div>
         <h3>100,000 Australian Opens before the first serve</h3>
-        <p>A surface-weighted Elo model, frozen on January 1, 2024, played the real 128-player draw a hundred thousand times. Then Melbourne played it once.</p>
-        <div class="stat"><b>16.1%</b><span>title odds for Jannik Sinner, the model's #2 pick. He won it.</span></div>
-        <div class="stack">Python · Monte Carlo · Elo · NumPy</div>
-        <a class="go" href="https://github.com/LukasUNCW/Australian-Open-2024-Monte-Carlo-Simulation" target="_blank" rel="noopener">See the code <span>→</span></a>
+        <p>An Elo model played the 2024 draw 100,000 times. Its #2 pick, Sinner, won it.</p>
+        <a class="go" href="https://github.com/LukasUNCW/Australian-Open-2024-Monte-Carlo-Simulation" target="_blank" rel="noopener">Code <span>→</span></a>
       </div>
     </article>
 
-    <article class="work" data-mode="solr">
+    <article class="work mini" data-mode="solr">
       <div class="body-wrap">
-        <div class="idx"><b>03</b>Time series</div>
+        <div class="idx"><b>03</b>Space</div>
         <h3>Does the Sun tell you what happens at Earth?</h3>
-        <p>Sixty years of NOAA space-weather data, forecast six years out with ARIMA, a vector autoregression and a dynamic regression, to see whether solar activity predicts geomagnetic storms.</p>
-        <div class="stat"><b>−45%</b><span>sunspot forecast error from modelling the series together instead of one at a time.</span></div>
-        <div class="stack">R · ARIMA · VAR · dynamic regression</div>
-        <a class="go" href="https://github.com/LukasUNCW/Solar-Activity-and-Geomagnetic-Forecasting" target="_blank" rel="noopener">See the code <span>→</span></a>
+        <p>Sixty years of NOAA data, forecast in R. Modelling the series together cut sunspot error by 45%.</p>
+        <a class="go" href="https://github.com/LukasUNCW/Solar-Activity-and-Geomagnetic-Forecasting" target="_blank" rel="noopener">Code <span>→</span></a>
       </div>
     </article>
 
-    <article class="work" data-mode="rent">
+    <article class="work mini" data-mode="rent">
       <div class="body-wrap">
-        <div class="idx"><b>04</b>Data engineering</div>
+        <div class="idx"><b>04</b>AI &amp; data</div>
         <h3>A pipeline that found my house</h3>
-        <p>Every morning at 7:30, a Databricks pipeline pulls live Wilmington rentals, cleans them Bronze → Silver → Gold, and has Claude score each one against what my roommates and I wanted.</p>
-        <div class="stat"><b>$583</b><span>a month per person for the top-scored listing, out of 50 scored each run.</span></div>
-        <div class="stack">Databricks · PySpark · Delta Lake · Claude API</div>
-        <a class="go" href="https://github.com/LukasUNCW/Wilmington-Rental-Pipeline" target="_blank" rel="noopener">See the code <span>→</span></a>
+        <p>A daily Databricks pipeline where Claude scores every Wilmington rental against what my roommates and I wanted.</p>
+        <a class="go" href="https://github.com/LukasUNCW/Wilmington-Rental-Pipeline" target="_blank" rel="noopener">Code <span>→</span></a>
       </div>
     </article>
 
@@ -209,13 +224,13 @@
       <div class="body-wrap">
         <div class="chapter" style="padding-top:0">About</div>
         <div class="chapter-title">I learn by <em>building.</em></div>
-        <p>I finished my <strong>MS in Computer Science &amp; Information Systems at UNC Wilmington</strong> and I'm heading for risk. Every concept I pick up, from VaR to credit loss to forecasting, becomes a working tool, and every tool gets backtested. A model is only as good as its out-of-sample record.</p>
-        <p>Outside the models: tennis, space weather, and apparently finding houses with LLMs.</p>
+        <p>I'm a recent grad with a <strong>master's in Computer Science &amp; Information Systems from UNC Wilmington</strong>, now a developer at Atlantic Packaging.</p>
+        <p>The thing I keep coming back to is the tech side of finance: quant research, systematic trading, and the models underneath them. When something catches my interest, whether that's markets, tennis, space weather or an AI pipeline, I build it and check it against real data.</p>
         <dl class="kit">
           <dt>Languages</dt><dd>Python, R, SQL</dd>
           <dt>Quant</dt><dd>pandas, NumPy, SciPy, scikit-learn, arch</dd>
-          <dt>Data</dt><dd>Databricks, PySpark, Delta Lake, APIs</dd>
-          <dt>Risk</dt><dd>VaR &amp; CVaR, GARCH, EVT, credit risk, Basel III</dd>
+          <dt>Data &amp; AI</dt><dd>Databricks, PySpark, Delta Lake, LLM APIs, integrations</dd>
+          <dt>Into</dt><dd>quant &amp; systematic trading, risk models, simulation</dd>
         </dl>
       </div>
     </section>
@@ -223,8 +238,8 @@
     <section class="contact work" id="contact" data-mode="contact">
       <div class="body-wrap">
         <div class="chapter" style="padding-top:0">Contact</div>
-        <div class="big">Got a seat<br>on the <em>floor?</em></div>
-        <p>I'm looking for risk analyst roles and internships, and I'm always up for talking models.</p>
+        <div class="big">Say <em>hi.</em></div>
+        <p>Recruiters, fellow builders, anyone into quant or AI: I'm always happy to talk projects, ideas or opportunities.</p>
         <a class="mail" href="mailto:lukas@lukas-nilsson.com">lukas@lukas-nilsson.com</a>
         <div class="socials">
           <a href="https://www.linkedin.com/in/lukas-nilsson" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -440,9 +455,12 @@ function drawHero(now) {
       hx.font = `500 26px ${MONO}`; hx.fillStyle = COL.green; hx.fillText('▲ TOP PICK   3 bed / 3 bath   $1,749/mo   $583 each', 60, 560);
       hx.font = `400 22px ${MONO}`; hx.fillStyle = COL.mute; hx.fillText('score ≥ 7 → dashboard      score = 9 → 8:00 AM email', 60, 620);
     }
+  } else if (m === 'job') {
+    header('WORK', 'ATLANTIC PACKAGING · SINCE MID-2026');
+    typeLines([['> role', COL.mute], ['Business Application Developer', COL.amber, 40], ['AI & Integration'], ['> building', COL.mute], ['AI tools · system integrations'], ['> tenure', COL.mute], [(() => { const d = new Date(), m = (d.getFullYear() - 2026) * 12 + d.getMonth() - 4; return m <= 1 ? 'just getting started' : m + ' months and counting'; })(), COL.green]], a / 1.5);
   } else if (m === 'about') {
     header('BIO', 'WHOAMI');
-    typeLines([['> whoami', COL.mute], ['Lukas Nilsson', COL.amber, 44], ['> education', COL.mute], ['MS Computer Science & Info Systems, UNCW'], ['> focus', COL.mute], ['market risk · credit risk · forecasting'], ['> status', COL.mute], ['open to risk analyst roles', COL.green]], a / 1.6);
+    typeLines([['> whoami', COL.mute], ['Lukas Nilsson', COL.amber, 44], ['> education', COL.mute], ['MS Computer Science & Info Systems, UNCW'], ['> day_job', COL.mute], ['dev, AI & integration @ Atlantic Packaging'], ['> after_hours', COL.mute], ['quant · systematic trading · models', COL.green]], a / 1.6);
   } else if (m === 'contact') {
     header('MSG', 'NEW MESSAGE');
     typeLines([['> contact --lukas', COL.mute], ['lukas@lukas-nilsson.com', COL.amber, 44], [''], ['linkedin.com/in/lukas-nilsson'], ['github.com/LukasUNCW'], [''], ['> ready when you are', COL.green]], a / 1.4);
@@ -497,7 +515,7 @@ function facadeTextures() {
 function tickerTexture() {
   return canvasTex(4096, 64, (x, W) => {
     x.fillStyle = '#020305'; x.fillRect(0, 0, W, 64);
-    const items = [['LUKAS NILSSON', '', COL.amber], ['EVT-POT HIT', '1.19% ▲', COL.green], ['SPX', '+0.42% ▲', COL.green], ['P(SINNER)', '16.1% ▲', COL.green], ['UST10Y', '−3bp ▼', COL.red], ['NORMAL VaR HIT', '2.56% ▼', COL.red], ['SUNSPOT RMSE', '−45% ▲', COL.green], ['AO24 SIMS', '100,000', COL.text], ['GARCH INDEP p', '0.70 ▲', COL.green], ['OPEN TO RISK ROLES', '', COL.amber]];
+    const items = [['LUKAS NILSSON', '', COL.amber], ['EVT-POT HIT', '1.19% ▲', COL.green], ['SPX', '+0.42% ▲', COL.green], ['P(SINNER)', '16.1% ▲', COL.green], ['UST10Y', '−3bp ▼', COL.red], ['NORMAL VaR HIT', '2.56% ▼', COL.red], ['SUNSPOT RMSE', '−45% ▲', COL.green], ['AO24 SIMS', '100,000', COL.text], ['GARCH INDEP p', '0.70 ▲', COL.green], ['BUILT AFTER HOURS', '', COL.amber]];
     x.font = `600 36px ${MONO}`; x.textBaseline = 'middle'; let px = 20, i = 0;
     while (px < W - 200) { const [k, v, col] = items[i++ % items.length]; x.fillStyle = col === COL.amber ? COL.amber : '#d7dee6'; x.fillText(k, px, 33); px += x.measureText(k).width + 14; if (v) { x.fillStyle = col; x.fillText(v, px, 33); px += x.measureText(v).width; } px += 80; }
   });

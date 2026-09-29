@@ -1,6 +1,6 @@
 # lukas-nilsson.com
 
-Portfolio site for Lukas Nilsson. Scroll through a 3D Manhattan trading floor at sunset and land over a trader's shoulder; the main terminal then shows each project live.
+Portfolio site for Lukas Nilsson: developer (AI & integration) at Atlantic Packaging, into the tech side of finance. Scroll through a 3D Manhattan trading floor at sunset to land at a terminal that shows his day job and side projects.
 
 - Single `index.html` built on [Three.js](https://threejs.org) (loaded from jsDelivr), no build step.
 - `assets/people/`: seated business avatars from [Microsoft Rocketbox](https://github.com/microsoft/Microsoft-Rocketbox) (MIT, see `ROCKETBOX-LICENSE.md`), textures resized for the web.
