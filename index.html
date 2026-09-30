@@ -36,13 +36,13 @@
   body.ready #loader { opacity: 0; visibility: hidden; }
   @keyframes blink { 50% { opacity: 0; } }
 
-  .top { position: fixed; top: 0; left: 0; right: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; padding: 22px 32px; pointer-events: none; }
+  .top { position: fixed; top: 0; left: 0; right: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; padding: 14px 32px; background: rgba(6, 8, 12, .62); -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); border-bottom: 1px solid rgba(255, 255, 255, .08); }
   .top > * { pointer-events: auto; }
-  .mark { font-family: var(--serif); font-size: 24px; text-decoration: none; letter-spacing: -.01em; }
+  .mark { font-family: var(--serif); font-size: 24px; text-decoration: none; letter-spacing: -.01em; color: #fff; }
   .mark i { color: var(--amber); }
-  .top nav { display: flex; gap: 26px; font-size: 13px; }
-  .top nav a { text-decoration: none; color: var(--soft); transition: color .2s; }
-  .top nav a:hover { color: var(--text); }
+  .top nav { display: flex; gap: 26px; font-size: 14px; font-weight: 500; }
+  .top nav a { text-decoration: none; color: #f2f4f7; transition: color .2s; }
+  .top nav a:hover, .top nav a:focus-visible { color: var(--amber); }
 
   /* ---------- intro beats ---------- */
   #intro { position: relative; z-index: 10; height: 560vh; }
@@ -108,7 +108,7 @@
   footer { position: relative; z-index: 10; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 28px 7vw 34px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--dim); }
 
   @media (max-width: 860px) {
-    .top { padding: 18px 20px; }
+    .top { padding: 12px 20px; }
     .top nav { gap: 18px; }
     .beat { padding: 0 24px; }
     .col { width: auto; margin: 0 24px; }
