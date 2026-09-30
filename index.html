@@ -262,6 +262,7 @@ import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 
 const $ = s => document.querySelector(s);
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -592,10 +593,17 @@ function build() {
   scene.add(new THREE.Mesh(new THREE.SphereGeometry(900, 32, 16), skyMat));
 
   // ---------- light ----------
-  scene.add(new THREE.HemisphereLight('#fff2da', '#8a7a6c', 1.0)); scene.add(new THREE.AmbientLight('#fff1e4', .12));
-  const up = new THREE.DirectionalLight('#fff4e8', .35); up.position.set(0, -10, -4); scene.add(up);
-  const fill = new THREE.DirectionalLight('#fff3e2', .3); fill.position.set(0, 10, 10); scene.add(fill);
-  const sun = new THREE.DirectionalLight('#ffa565', small ? 1.9 : 2.4);
+  // soft bounce: bright from above, darker from the carpet below
+  scene.add(new THREE.HemisphereLight('#fff3e0', '#4b4239', .7));
+  // the ceiling fixtures: light falling almost straight down, with soft shadows under desks, chairs and people
+  const fixtures = new THREE.DirectionalLight('#fff0d8', small ? 1.5 : 1.35);
+  fixtures.position.set(1.5, 20, 3); fixtures.target.position.set(0, 0, -6); scene.add(fixtures, fixtures.target);
+  if (!small) {
+    fixtures.castShadow = true; fixtures.shadow.mapSize.set(2048, 2048); fixtures.shadow.radius = 6; fixtures.shadow.blurSamples = 12;
+    Object.assign(fixtures.shadow.camera, { left: -16, right: 16, top: 22, bottom: -22, near: 5, far: 40 });
+    fixtures.shadow.bias = -.0006; fixtures.shadow.normalBias = .03;
+  }
+  const sun = new THREE.DirectionalLight('#ff9550', small ? 1.6 : 2.1);
   sun.target.position.set(0, 1.5, -6); sun.position.copy(sun.target.position).addScaledVector(SUNLIGHT, 90);
   scene.add(sun, sun.target);
   if (!small) {
@@ -615,7 +623,7 @@ function build() {
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({ map: carpet, roughness: .95 }));
   floor.rotation.x = -Math.PI / 2; floor.position.set(cx, 0, cz); floor.receiveShadow = true; scene.add(floor);
 
-  const ceilTex = canvasTex(256, 256, (x) => { x.fillStyle = '#d9dbdf'; x.fillRect(0, 0, 256, 256); x.strokeStyle = '#a9adb4'; x.lineWidth = 2; for (let i = 0; i <= 256; i += 64) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, 256); x.moveTo(0, i); x.lineTo(256, i); x.stroke(); } }, [W / 2.4, D / 2.4]);
+  const ceilTex = canvasTex(256, 256, (x) => { x.fillStyle = '#b9b8b3'; x.fillRect(0, 0, 256, 256); x.strokeStyle = '#8f8e89'; x.lineWidth = 2; for (let i = 0; i <= 256; i += 64) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, 256); x.moveTo(0, i); x.lineTo(256, i); x.stroke(); } }, [W / 2.4, D / 2.4]);
   const ceil = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({ map: ceilTex, roughness: .9 }));
   ceil.rotation.x = Math.PI / 2; ceil.position.set(cx, ROOM.h, cz); ceil.receiveShadow = true; scene.add(ceil);
 
@@ -748,7 +756,7 @@ function build() {
   smallScreens.push(...makeSmallScreens(20));
   const rows = small ? [-17, -12, -7, -2, 3] : [-22, -17, -12, -7, -2, 3, 8];
   const benches = [[-12, -2], [2, 12]], PITCH = 1.6;
-  const deskMat = new THREE.MeshStandardMaterial({ color: '#c8c3b9', roughness: .6, envMapIntensity: .15 });
+  const deskMat = new THREE.MeshStandardMaterial({ color: '#b3ada2', roughness: .65, envMapIntensity: .15 });
   const spineMat = new THREE.MeshStandardMaterial({ color: '#2c3036', roughness: .45, metalness: .5 });
   const bezelMat = new THREE.MeshPhysicalMaterial({ color: '#0a0b0d', roughness: .28, metalness: .2, clearcoat: .7, clearcoatRoughness: .2 });
   const blackMat = new THREE.MeshStandardMaterial({ color: '#15171a', roughness: .5 });
@@ -899,6 +907,7 @@ function build() {
   const mainW = .98, mainH = mainW * HS.h / HS.w;
   const mf = new THREE.Mesh(new RoundedBoxGeometry(mainW + .035, mainH + .035, .035, 2, .01), bezelMat); mf.position.set(0, 1.13, .2); mf.castShadow = true; H.add(mf);
   const ms = new THREE.Mesh(new THREE.PlaneGeometry(mainW, mainH), new THREE.MeshBasicMaterial({ map: heroTex, toneMapped: false })); ms.position.set(0, 1.13, .219); H.add(ms);
+  const screenGlow = new THREE.PointLight('#9cc4ff', .6, 1.8, 2); screenGlow.position.set(0, 1.15, .45); H.add(screenGlow);
   [[-.82, 1.07, .32, 0], [.82, 1.07, -.32, 1], [-.33, 1.58, .08, 2], [.33, 1.58, -.08, 3]].forEach(([dx, y, ry, i]) => {
     const g = new THREE.Group(); g.position.set(dx, y, .2 + (i < 2 ? .06 : -.02)); g.rotation.set(i > 1 ? -.07 : 0, ry, 0); H.add(g);
     g.add(new THREE.Mesh(bezelGeo, bezelMat));
@@ -1141,18 +1150,28 @@ function start() {
   } catch (e) { document.body.classList.add('nogl', 'ready'); return; }
   renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.5 : 1.75));
   renderer.setSize(innerWidth, innerHeight);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .82;
-  renderer.shadowMap.enabled = !small; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .9;
+  renderer.shadowMap.enabled = !small; renderer.shadowMap.type = THREE.VSMShadowMap;
   camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .05, 2000);
   build();
   posCurve = new THREE.CatmullRomCurve3(KEY.map(k => new THREE.Vector3(...k.p)), false, 'centripetal');
   lookCurve = new THREE.CatmullRomCurve3(KEY.map(k => new THREE.Vector3(...k.l)), false, 'centripetal');
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  if (!small) { const ao = new GTAOPass(scene, camera, innerWidth, innerHeight); ao.updateGtaoMaterial({ radius: .45, distanceExponent: 1.6, thickness: 1.2, scale: 1.1, samples: 12 }); ao.blendIntensity = .85; composer.addPass(ao); }
+  if (!small) { const ao = new GTAOPass(scene, camera, innerWidth, innerHeight); ao.updateGtaoMaterial({ radius: .6, distanceExponent: 1.4, thickness: 1.4, scale: 1.2, samples: 12 }); ao.blendIntensity = 1; composer.addPass(ao); }
   bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth / 2, innerHeight / 2), .22, .3, 1.6);
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
+  // lens: gentle vignette and fine grain, like a real camera
+  composer.addPass(new ShaderPass({
+    uniforms: { tDiffuse: { value: null }, uTime: { value: 0 } },
+    vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }',
+    fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime; varying vec2 vUv;
+      float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233)) + uTime) * 43758.5453); }
+      void main(){ vec4 c = texture2D(tDiffuse, vUv); vec2 d = vUv - .5;
+        c.rgb *= mix(1., smoothstep(.95, .25, length(d * vec2(1.1, 1.))), .38);
+        c.rgb += (h(vUv * 800.) - .5) * .022; gl_FragColor = c; }`
+  }));
   addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); readScroll(); });
   addEventListener('pointermove', e => { mouseX = e.clientX / innerWidth - .5; mouseY = e.clientY / innerHeight - .5; });
   readScroll(); progress = target;
